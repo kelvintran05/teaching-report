@@ -19,7 +19,13 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json({ activities });
+    // Convert className from comma-separated string to array
+    const activitiesWithArrays = activities.map((activity) => ({
+      ...activity,
+      className: activity.className.split(","),
+    }));
+
+    return NextResponse.json({ activities: activitiesWithArrays });
   } catch (error) {
     console.error("Get activities error:", error);
     return NextResponse.json(
@@ -51,6 +57,11 @@ export async function POST(request: Request) {
       taComment,
     } = body;
 
+    // Convert className array to comma-separated string
+    const classNameStr = Array.isArray(className)
+      ? className.join(",")
+      : className;
+
     const activity = await prisma.activity.create({
       data: {
         userId: (session.user as any).id,
@@ -58,7 +69,7 @@ export async function POST(request: Request) {
         schoolName,
         session: sessionTime,
         period,
-        className,
+        className: classNameStr,
         lessonName,
         ta,
         classStatus,
@@ -67,7 +78,13 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ activity }, { status: 201 });
+    // Convert back to array for response
+    const activityWithArray = {
+      ...activity,
+      className: activity.className.split(","),
+    };
+
+    return NextResponse.json({ activity: activityWithArray }, { status: 201 });
   } catch (error) {
     console.error("Create activity error:", error);
     return NextResponse.json(

@@ -39,6 +39,11 @@ export async function PUT(
       );
     }
 
+    // Convert className array to comma-separated string
+    const classNameStr = Array.isArray(className)
+      ? className.join(",")
+      : className;
+
     const activity = await prisma.activity.update({
       where: { id: params.id },
       data: {
@@ -46,7 +51,7 @@ export async function PUT(
         schoolName,
         session: sessionTime,
         period,
-        className,
+        className: classNameStr,
         lessonName,
         ta,
         classStatus,
@@ -55,7 +60,13 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json({ activity });
+    // Convert back to array for response
+    const activityWithArray = {
+      ...activity,
+      className: activity.className.split(","),
+    };
+
+    return NextResponse.json({ activity: activityWithArray });
   } catch (error) {
     console.error("Update activity error:", error);
     return NextResponse.json(

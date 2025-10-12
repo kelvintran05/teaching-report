@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -33,7 +33,7 @@ model Activity {
   schoolName       String
   session          String
   period           String
-  className        String[]
+  className        String   // Stored as comma-separated values: "1/12,1/13,1/14"
   lessonName       String
   ta               String?
   classStatus      String?

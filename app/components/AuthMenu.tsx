@@ -21,7 +21,8 @@ export default function AuthMenu() {
           style={{
             width: "100%",
             height: "100%",
-            background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+            background:
+              "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
             backgroundSize: "200% 100%",
             animation: "shimmer 1.5s infinite",
             borderRadius: "8px",
@@ -74,7 +75,8 @@ export default function AuthMenu() {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(255, 182, 193, 0.3)";
+            e.currentTarget.style.boxShadow =
+              "0 4px 12px rgba(255, 182, 193, 0.3)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "translateY(0)";
@@ -119,7 +121,8 @@ export default function AuthMenu() {
           onMouseEnter={(e) => {
             e.currentTarget.style.background = "#FFF5F8";
             e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(255, 182, 193, 0.3)";
+            e.currentTarget.style.boxShadow =
+              "0 4px 12px rgba(255, 182, 193, 0.3)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = "transparent";
@@ -147,11 +150,13 @@ export default function AuthMenu() {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 4px 15px rgba(255, 182, 193, 0.5)";
+            e.currentTarget.style.boxShadow =
+              "0 4px 15px rgba(255, 182, 193, 0.5)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "0 2px 8px rgba(255, 182, 193, 0.3)";
+            e.currentTarget.style.boxShadow =
+              "0 2px 8px rgba(255, 182, 193, 0.3)";
           }}
         >
           Đăng ký
@@ -160,4 +165,3 @@ export default function AuthMenu() {
     </Space>
   );
 }
-

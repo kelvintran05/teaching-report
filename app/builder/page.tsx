@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Form,
   DatePicker,
@@ -93,6 +93,7 @@ export default function BuilderPage() {
   const [availableGrades, setAvailableGrades] = useState<string[]>([]);
   const [availableClasses, setAvailableClasses] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -563,11 +564,7 @@ export default function BuilderPage() {
                 // Excel serial date
                 const excelDate = XLSX.SSF.parse_date_code(date);
                 parsedDate = dayjs(
-                  new Date(
-                    excelDate.y,
-                    excelDate.m - 1,
-                    excelDate.d
-                  )
+                  new Date(excelDate.y, excelDate.m - 1, excelDate.d)
                 ).format("YYYY-MM-DD");
               } else {
                 // Try to parse string date
@@ -842,27 +839,27 @@ export default function BuilderPage() {
                   gap: "12px",
                   fontSize: "18px",
                   fontWeight: "600",
-                color: "#D04770",
-              }}
-            >
-              <span
-                style={{
-                  width: "42px",
-                  height: "42px",
-                  background:
-                    "linear-gradient(135deg, #FFB6C1 0%, #FFE4E9 100%)",
-                  borderRadius: "14px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "22px",
-                  boxShadow: "0 3px 10px rgba(255, 182, 193, 0.3)",
+                  color: "#D04770",
                 }}
               >
-                {editingId ? "✏️" : "📝"}
-              </span>
-              {editingId ? "Chỉnh sửa hoạt động" : "Thêm hoạt động mới"}
-            </div>
+                <span
+                  style={{
+                    width: "42px",
+                    height: "42px",
+                    background:
+                      "linear-gradient(135deg, #FFB6C1 0%, #FFE4E9 100%)",
+                    borderRadius: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "22px",
+                    boxShadow: "0 3px 10px rgba(255, 182, 193, 0.3)",
+                  }}
+                >
+                  {editingId ? "✏️" : "📝"}
+                </span>
+                {editingId ? "Chỉnh sửa hoạt động" : "Thêm hoạt động mới"}
+              </div>
               <Space size="middle">
                 <Tooltip title="Tải file Excel mẫu để điền dữ liệu">
                   <Button
@@ -895,39 +892,38 @@ export default function BuilderPage() {
                   </Button>
                 </Tooltip>
                 <Tooltip title="Upload file Excel để import dữ liệu hàng loạt">
-                  <label htmlFor="file-upload">
-                    <Button
-                      icon={<UploadOutlined />}
-                      size="large"
-                      style={{
-                        borderRadius: "12px",
-                        border: "2px solid #96E6B3",
-                        color: "#2F8F5F",
-                        fontWeight: "600",
-                        height: "40px",
-                        padding: "0 20px",
-                        background: "transparent",
-                        transition: "all 0.3s ease",
-                        cursor: "pointer",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background =
-                          "linear-gradient(135deg, #96E6B3 0%, #D4FCE7 100%)";
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                        e.currentTarget.style.boxShadow =
-                          "0 4px 12px rgba(150, 230, 179, 0.3)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "transparent";
-                        e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow = "none";
-                      }}
-                    >
-                      📤 Upload
-                    </Button>
-                  </label>
+                  <Button
+                    icon={<UploadOutlined />}
+                    size="large"
+                    onClick={() => fileInputRef.current?.click()}
+                    style={{
+                      borderRadius: "12px",
+                      border: "2px solid #96E6B3",
+                      color: "#2F8F5F",
+                      fontWeight: "600",
+                      height: "40px",
+                      padding: "0 20px",
+                      background: "transparent",
+                      transition: "all 0.3s ease",
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background =
+                        "linear-gradient(135deg, #96E6B3 0%, #D4FCE7 100%)";
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow =
+                        "0 4px 12px rgba(150, 230, 179, 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "transparent";
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    📤 Upload
+                  </Button>
                   <input
-                    id="file-upload"
+                    ref={fileInputRef}
                     type="file"
                     accept=".xlsx,.xls"
                     onChange={handleFileUpload}

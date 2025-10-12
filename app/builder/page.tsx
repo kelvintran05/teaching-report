@@ -513,7 +513,18 @@ export default function BuilderPage() {
         const workbook = XLSX.read(data, { type: "array" });
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
-        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet);
+        
+        // Try to detect file type by checking first row
+        const range = XLSX.utils.decode_range(worksheet["!ref"] || "A1");
+        const firstCellValue = worksheet["A1"]?.v || "";
+        
+        // Check if it's an output file (starts with "BÁO CÁO CÔNG VIỆC")
+        const isOutputFile = firstCellValue.toString().includes("BÁO CÁO CÔNG VIỆC");
+        
+        // For output files, skip first row (title) and use row 2 as header
+        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, {
+          range: isOutputFile ? 1 : 0, // Start from row 2 if output file
+        });
 
         if (jsonData.length === 0) {
           message.warning("File Excel không có dữ liệu!");
@@ -525,36 +536,58 @@ export default function BuilderPage() {
           .map((row, index) => {
             try {
               // Map Excel columns to Item fields
-              // Expected columns: Ngày, Trường, Buổi, Tiết, Lớp, Tên bài, Trợ giảng, Tình hình, Tự đánh giá, Nhận xét TA
+              // Support both template format and output format
               const date = row["Ngày"] || row["Date"] || row["date"];
               const schoolName =
                 row["Trường"] || row["School"] || row["schoolName"];
-              const session = row["Buổi"] || row["Session"] || row["session"];
-              const period =
-                row["Tiết"] || row["Period"] || row["period"] || "";
+              
+              // Handle session and period
+              let session = "";
+              let period = "";
+              
+              // Check if "Buổi - Tiết" column exists (output format)
+              const sessionPeriod = row["Buổi - Tiết"] || row["Buổi-Tiết"];
+              if (sessionPeriod) {
+                // Parse "S1" → session="Sáng", period="1"
+                // Parse "C3" → session="Chiều", period="3"
+                const match = sessionPeriod.toString().match(/^([SC])(\d+)$/);
+                if (match) {
+                  session = match[1] === "S" ? "Sáng" : "Chiều";
+                  period = match[2];
+                }
+              } else {
+                // Template format: separate columns
+                session = row["Buổi"] || row["Session"] || row["session"] || "";
+                period = row["Tiết"] || row["Period"] || row["period"] || "";
+              }
+              
               const className =
                 row["Lớp"] || row["Class"] || row["className"] || "";
               const lessonName =
                 row["Tên bài"] || row["Lesson"] || row["lessonName"];
               const ta = row["Trợ giảng"] || row["TA"] || row["ta"] || "";
+              
+              // Handle different column names for status and evaluations
               const classStatus =
-                row["Tình hình"] ||
                 row["Tình hình tiết học"] ||
+                row["Tình hình"] ||
                 row["Status"] ||
                 row["classStatus"] ||
                 "";
               const selfEvaluation =
-                row["Tự đánh giá"] ||
+                row["Tự nhận xét"] || // Output format
+                row["Tự đánh giá"] ||  // Template format
                 row["Self Evaluation"] ||
                 row["selfEvaluation"] ||
                 "";
               const taComment =
-                row["Nhận xét TA"] ||
+                row["Nhận xét trợ giảng"] || // Output format
+                row["Nhận xét TA"] ||         // Template format
                 row["TA Comment"] ||
                 row["taComment"] ||
                 "";
 
-              if (!date || !schoolName || !session || !lessonName) {
+              if (!date || !schoolName || !lessonName) {
                 return null; // Skip invalid rows
               }
 
@@ -567,8 +600,19 @@ export default function BuilderPage() {
                   new Date(excelDate.y, excelDate.m - 1, excelDate.d)
                 ).format("YYYY-MM-DD");
               } else {
-                // Try to parse string date
-                parsedDate = dayjs(date).format("YYYY-MM-DD");
+                // Try to parse string date (DD/MM/YYYY or YYYY-MM-DD)
+                const dateStr = date.toString();
+                if (dateStr.includes("/")) {
+                  // Assume DD/MM/YYYY
+                  const parts = dateStr.split("/");
+                  if (parts.length === 3) {
+                    parsedDate = dayjs(
+                      `${parts[2]}-${parts[1]}-${parts[0]}`
+                    ).format("YYYY-MM-DD");
+                  }
+                } else {
+                  parsedDate = dayjs(date).format("YYYY-MM-DD");
+                }
               }
 
               // Parse className to array
@@ -579,7 +623,7 @@ export default function BuilderPage() {
                 .filter((c: string) => c);
 
               return {
-                id: `${Date.now()}-${index}`,
+                id: `${Date.now()}-${index}-${Math.random()}`,
                 date: parsedDate,
                 schoolName: schoolName.toString().trim(),
                 session: session.toString().trim(),
@@ -608,8 +652,9 @@ export default function BuilderPage() {
         // Add imported items to existing items
         setItems((prevItems) => [...prevItems, ...importedItems]);
 
+        const fileType = isOutputFile ? "file báo cáo" : "file template";
         message.success({
-          content: `📥 Đã import thành công ${importedItems.length} hoạt động từ file Excel!`,
+          content: `📥 Đã import thành công ${importedItems.length} hoạt động từ ${fileType}!`,
           duration: 4,
         });
       } catch (error) {

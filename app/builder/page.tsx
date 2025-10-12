@@ -75,7 +75,7 @@ const CLASSES_BY_SCHOOL_AND_GRADE: Record<string, Record<string, string[]>> = {
 };
 
 const SESSIONS = ["Sáng", "Chiều"];
-const TAS = ["Ngọc An", "Yến Nhi", "Uyên", "Minh Truyền", "Không có trợ giảng"];
+const TAS = ["Ngọc An", "Yến Nhi", "Uyên", "Minh Truyền", "Không có trợ giảng", "Khác"];
 const TA_COMMENT_SUGGEST =
   "Trợ giảng biết việc, bao quát lớp tuy nhiên vẫn chưa thực sự xử lí tốt các tình huống, trang phục chưa phù hợp";
 const CLASS_STATUS_SUGGEST =
@@ -94,21 +94,40 @@ export default function BuilderPage() {
   const [availableClasses, setAvailableClasses] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showCustomTA, setShowCustomTA] = useState(false);
+  const [showCustomClass, setShowCustomClass] = useState(false);
+  const [customTAValue, setCustomTAValue] = useState("");
+  const [customClassValue, setCustomClassValue] = useState("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const handleSubmit = (values: any) => {
+    // Handle custom TA value
+    let finalTA = values.ta || "";
+    if (values.ta === "Khác" && customTAValue.trim()) {
+      finalTA = customTAValue.trim();
+    }
+
+    // Handle custom class value
+    let finalClassName = values.className || [];
+    if (Array.isArray(finalClassName) && finalClassName.includes("Khác") && customClassValue.trim()) {
+      // Replace "Khác" with custom value
+      finalClassName = finalClassName
+        .filter((c: string) => c !== "Khác")
+        .concat(customClassValue.split(/[,;]/).map((c: string) => c.trim()).filter((c: string) => c));
+    }
+
     const newItem: Item = {
       id: editingId || crypto.randomUUID(),
       date: values.date.format("YYYY-MM-DD"),
       schoolName: values.schoolName,
       session: values.session,
       period: values.period || "",
-      className: values.className,
+      className: finalClassName,
       lessonName: values.lessonName,
-      ta: values.ta || "",
+      ta: finalTA,
       classStatus: values.classStatus || "",
       selfEvaluation: values.selfEvaluation || "",
       taComment: values.taComment || "",
@@ -134,6 +153,10 @@ export default function BuilderPage() {
     setSelectedGrade("");
     setAvailableGrades([]);
     setAvailableClasses([]);
+    setShowCustomTA(false);
+    setShowCustomClass(false);
+    setCustomTAValue("");
+    setCustomClassValue("");
   };
 
   const handleEdit = (item: Item) => {
@@ -153,9 +176,8 @@ export default function BuilderPage() {
 
     // Load classes cho grade
     if (gradeName) {
-      setAvailableClasses(
-        CLASSES_BY_SCHOOL_AND_GRADE[item.schoolName]?.[gradeName] || []
-      );
+      const classes = CLASSES_BY_SCHOOL_AND_GRADE[item.schoolName]?.[gradeName] || [];
+      setAvailableClasses([...classes, "Khác"]);
     }
 
     form.setFieldsValue({
@@ -187,14 +209,15 @@ export default function BuilderPage() {
   const handleGradeChange = (gradeName: string) => {
     setSelectedGrade(gradeName);
     if (selectedSchool && gradeName) {
-      setAvailableClasses(
-        CLASSES_BY_SCHOOL_AND_GRADE[selectedSchool]?.[gradeName] || []
-      );
+      const classes = CLASSES_BY_SCHOOL_AND_GRADE[selectedSchool]?.[gradeName] || [];
+      setAvailableClasses([...classes, "Khác"]);
     } else {
       setAvailableClasses([]);
     }
     // Reset className khi đổi khối
     form.setFieldValue("className", undefined);
+    setShowCustomClass(false);
+    setCustomClassValue("");
   };
 
   const handleDelete = (id: string) => {
@@ -547,31 +570,49 @@ export default function BuilderPage() {
               const date = row["Ngày"] || row["Date"] || row["date"];
               const schoolName =
                 row["Trường"] || row["School"] || row["schoolName"];
-              
+
               // Handle session and period
               let session = "";
               let period = "";
-              
+
               // Check if "Buổi - Tiết" column exists (output format)
               // Try multiple variants with different spacing
-              const sessionPeriod = 
-                row["Buổi - Tiết"] || 
-                row["Buổi-Tiết"] || 
+              const sessionPeriod =
+                row["Buổi - Tiết"] ||
+                row["Buổi-Tiết"] ||
                 row["Buổi- Tiết"] ||
                 row["Buổi -Tiết"] ||
                 row["Buoi - Tiet"] ||
-                Object.keys(row).find(key => 
-                  key.replace(/\s+/g, '').toLowerCase().includes('buổitiết') ||
-                  key.replace(/\s+/g, '').toLowerCase().includes('buoitiet')
-                ) ? row[Object.keys(row).find(key => 
-                  key.replace(/\s+/g, '').toLowerCase().includes('buổitiết') ||
-                  key.replace(/\s+/g, '').toLowerCase().includes('buoitiet')
-                )!] : undefined;
-              
+                Object.keys(row).find(
+                  (key) =>
+                    key
+                      .replace(/\s+/g, "")
+                      .toLowerCase()
+                      .includes("buổitiết") ||
+                    key.replace(/\s+/g, "").toLowerCase().includes("buoitiet")
+                )
+                  ? row[
+                      Object.keys(row).find(
+                        (key) =>
+                          key
+                            .replace(/\s+/g, "")
+                            .toLowerCase()
+                            .includes("buổitiết") ||
+                          key
+                            .replace(/\s+/g, "")
+                            .toLowerCase()
+                            .includes("buoitiet")
+                      )!
+                    ]
+                  : undefined;
+
               if (sessionPeriod) {
                 // Parse "S1" → session="Sáng", period="1"
                 // Parse "C3" → session="Chiều", period="3"
-                const match = sessionPeriod.toString().trim().match(/^([SC])(\d+)$/);
+                const match = sessionPeriod
+                  .toString()
+                  .trim()
+                  .match(/^([SC])(\d+)$/);
                 if (match) {
                   session = match[1] === "S" ? "Sáng" : "Chiều";
                   period = match[2];
@@ -581,25 +622,40 @@ export default function BuilderPage() {
                 session = row["Buổi"] || row["Session"] || row["session"] || "";
                 period = row["Tiết"] || row["Period"] || row["period"] || "";
               }
-              
+
               const className =
                 row["Lớp"] || row["Class"] || row["className"] || "";
               const lessonName =
                 row["Tên bài"] || row["Lesson"] || row["lessonName"];
-              
+
               // Try multiple variants for TA column
-              const ta = 
-                row["Trợ giảng"] || 
+              const ta =
+                row["Trợ giảng"] ||
                 row["Tro giang"] ||
-                row["TA"] || 
+                row["TA"] ||
                 row["ta"] ||
-                Object.keys(row).find(key => 
-                  key.replace(/\s+/g, '').toLowerCase().includes('trợgiảng') ||
-                  key.replace(/\s+/g, '').toLowerCase().includes('trogiang')
-                ) ? row[Object.keys(row).find(key => 
-                  key.replace(/\s+/g, '').toLowerCase().includes('trợgiảng') ||
-                  key.replace(/\s+/g, '').toLowerCase().includes('trogiang')
-                )!] : "";
+                Object.keys(row).find(
+                  (key) =>
+                    key
+                      .replace(/\s+/g, "")
+                      .toLowerCase()
+                      .includes("trợgiảng") ||
+                    key.replace(/\s+/g, "").toLowerCase().includes("trogiang")
+                )
+                  ? row[
+                      Object.keys(row).find(
+                        (key) =>
+                          key
+                            .replace(/\s+/g, "")
+                            .toLowerCase()
+                            .includes("trợgiảng") ||
+                          key
+                            .replace(/\s+/g, "")
+                            .toLowerCase()
+                            .includes("trogiang")
+                      )!
+                    ]
+                  : "";
 
               // Handle different column names for status and evaluations
               const classStatus =
@@ -860,7 +916,7 @@ export default function BuilderPage() {
                 }}
               >
                 🎓
-          </div>
+              </div>
               <Title
                 level={1}
                 style={{
@@ -895,9 +951,9 @@ export default function BuilderPage() {
                 >
                   👩‍🏫 Giáo viên: <strong>{teacher}</strong>
                 </Text>
+              </div>
+            </div>
           </div>
-          </div>
-        </div>
         </div>
 
         <Card
@@ -938,7 +994,7 @@ export default function BuilderPage() {
                   {editingId ? "✏️" : "📝"}
                 </span>
                 {editingId ? "Chỉnh sửa hoạt động" : "Thêm hoạt động mới"}
-          </div>
+              </div>
               <Space size="middle">
                 <Tooltip title="Tải file Excel mẫu để điền dữ liệu">
                   <Button
@@ -1010,7 +1066,7 @@ export default function BuilderPage() {
                   />
                 </Tooltip>
               </Space>
-        </div>
+            </div>
           }
           style={{
             marginBottom: "32px",
@@ -1138,6 +1194,14 @@ export default function BuilderPage() {
                     }
                     disabled={!selectedGrade}
                     maxTagCount="responsive"
+                    onChange={(values) => {
+                      setShowCustomClass(
+                        Array.isArray(values) && values.includes("Khác")
+                      );
+                      if (!values.includes("Khác")) {
+                        setCustomClassValue("");
+                      }
+                    }}
                   >
                     {availableClasses.map((c) => (
                       <Select.Option key={c} value={c}>
@@ -1146,6 +1210,19 @@ export default function BuilderPage() {
                     ))}
                   </Select>
                 </Form.Item>
+                {showCustomClass && (
+                  <Form.Item label="📝 Nhập tên lớp">
+                    <Input
+                      placeholder="Nhập tên lớp (có thể nhập nhiều lớp cách nhau bởi dấu phẩy)"
+                      value={customClassValue}
+                      onChange={(e) => setCustomClassValue(e.target.value)}
+                      style={{
+                        borderRadius: "12px",
+                        border: "2px solid #e8f4fd",
+                      }}
+                    />
+                  </Form.Item>
+                )}
               </Col>
 
               <Col xs={24} sm={12}>
@@ -1162,7 +1239,16 @@ export default function BuilderPage() {
             <Row gutter={16}>
               <Col xs={24} sm={12}>
                 <Form.Item label="🤝 Tên trợ giảng" name="ta">
-                  <Select placeholder="Chọn trợ giảng" allowClear>
+                  <Select
+                    placeholder="Chọn trợ giảng"
+                    allowClear
+                    onChange={(value) => {
+                      setShowCustomTA(value === "Khác");
+                      if (value !== "Khác") {
+                        setCustomTAValue("");
+                      }
+                    }}
+                  >
                     {TAS.map((t) => (
                       <Select.Option key={t} value={t}>
                         {t}
@@ -1170,6 +1256,19 @@ export default function BuilderPage() {
                     ))}
                   </Select>
                 </Form.Item>
+                {showCustomTA && (
+                  <Form.Item label="📝 Nhập tên trợ giảng">
+                    <Input
+                      placeholder="Nhập tên trợ giảng"
+                      value={customTAValue}
+                      onChange={(e) => setCustomTAValue(e.target.value)}
+                      style={{
+                        borderRadius: "12px",
+                        border: "2px solid #e8f4fd",
+                      }}
+                    />
+                  </Form.Item>
+                )}
               </Col>
             </Row>
 
@@ -1273,6 +1372,10 @@ export default function BuilderPage() {
                       setSelectedGrade("");
                       setAvailableGrades([]);
                       setAvailableClasses([]);
+                      setShowCustomTA(false);
+                      setShowCustomClass(false);
+                      setCustomTAValue("");
+                      setCustomClassValue("");
                     }}
                     style={{
                       borderRadius: "16px",
@@ -1327,7 +1430,7 @@ export default function BuilderPage() {
                     📚
                   </span>
                   Danh sách hoạt động ({items.length} hoạt động)
-                      </div>
+                </div>
               }
               extra={
                 <Space size="middle">
@@ -1429,7 +1532,7 @@ export default function BuilderPage() {
               }}
             >
               📝
-        </div>
+            </div>
             <Title
               level={2}
               style={{
@@ -1506,7 +1609,7 @@ export default function BuilderPage() {
                 <EyeOutlined />
               </span>
               Preview Báo Cáo
-        </div>
+            </div>
           }
           open={previewVisible}
           onCancel={() => setPreviewVisible(false)}
@@ -1566,10 +1669,10 @@ export default function BuilderPage() {
                 srcDoc={html}
                 style={{ width: "100%", height: "700px", border: "none" }}
               />
-          </div>
+            </div>
           )}
         </Modal>
-        </div>
+      </div>
     </div>
   );
 }

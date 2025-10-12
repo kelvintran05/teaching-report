@@ -513,14 +513,16 @@ export default function BuilderPage() {
         const workbook = XLSX.read(data, { type: "array" });
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
-        
+
         // Try to detect file type by checking first row
         const range = XLSX.utils.decode_range(worksheet["!ref"] || "A1");
         const firstCellValue = worksheet["A1"]?.v || "";
-        
+
         // Check if it's an output file (starts with "BÁO CÁO CÔNG VIỆC")
-        const isOutputFile = firstCellValue.toString().includes("BÁO CÁO CÔNG VIỆC");
-        
+        const isOutputFile = firstCellValue
+          .toString()
+          .includes("BÁO CÁO CÔNG VIỆC");
+
         // For output files, skip first row (title) and use row 2 as header
         const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, {
           range: isOutputFile ? 1 : 0, // Start from row 2 if output file
@@ -529,6 +531,11 @@ export default function BuilderPage() {
         if (jsonData.length === 0) {
           message.warning("File Excel không có dữ liệu!");
           return;
+        }
+
+        // Debug: Log first row columns to help troubleshoot
+        if (jsonData.length > 0) {
+          console.log("📊 Excel columns detected:", Object.keys(jsonData[0]));
         }
 
         // Parse data from Excel to Item format
@@ -546,11 +553,25 @@ export default function BuilderPage() {
               let period = "";
               
               // Check if "Buổi - Tiết" column exists (output format)
-              const sessionPeriod = row["Buổi - Tiết"] || row["Buổi-Tiết"];
+              // Try multiple variants with different spacing
+              const sessionPeriod = 
+                row["Buổi - Tiết"] || 
+                row["Buổi-Tiết"] || 
+                row["Buổi- Tiết"] ||
+                row["Buổi -Tiết"] ||
+                row["Buoi - Tiet"] ||
+                Object.keys(row).find(key => 
+                  key.replace(/\s+/g, '').toLowerCase().includes('buổitiết') ||
+                  key.replace(/\s+/g, '').toLowerCase().includes('buoitiet')
+                ) ? row[Object.keys(row).find(key => 
+                  key.replace(/\s+/g, '').toLowerCase().includes('buổitiết') ||
+                  key.replace(/\s+/g, '').toLowerCase().includes('buoitiet')
+                )!] : undefined;
+              
               if (sessionPeriod) {
                 // Parse "S1" → session="Sáng", period="1"
                 // Parse "C3" → session="Chiều", period="3"
-                const match = sessionPeriod.toString().match(/^([SC])(\d+)$/);
+                const match = sessionPeriod.toString().trim().match(/^([SC])(\d+)$/);
                 if (match) {
                   session = match[1] === "S" ? "Sáng" : "Chiều";
                   period = match[2];
@@ -565,8 +586,21 @@ export default function BuilderPage() {
                 row["Lớp"] || row["Class"] || row["className"] || "";
               const lessonName =
                 row["Tên bài"] || row["Lesson"] || row["lessonName"];
-              const ta = row["Trợ giảng"] || row["TA"] || row["ta"] || "";
               
+              // Try multiple variants for TA column
+              const ta = 
+                row["Trợ giảng"] || 
+                row["Tro giang"] ||
+                row["TA"] || 
+                row["ta"] ||
+                Object.keys(row).find(key => 
+                  key.replace(/\s+/g, '').toLowerCase().includes('trợgiảng') ||
+                  key.replace(/\s+/g, '').toLowerCase().includes('trogiang')
+                ) ? row[Object.keys(row).find(key => 
+                  key.replace(/\s+/g, '').toLowerCase().includes('trợgiảng') ||
+                  key.replace(/\s+/g, '').toLowerCase().includes('trogiang')
+                )!] : "";
+
               // Handle different column names for status and evaluations
               const classStatus =
                 row["Tình hình tiết học"] ||
@@ -576,13 +610,13 @@ export default function BuilderPage() {
                 "";
               const selfEvaluation =
                 row["Tự nhận xét"] || // Output format
-                row["Tự đánh giá"] ||  // Template format
+                row["Tự đánh giá"] || // Template format
                 row["Self Evaluation"] ||
                 row["selfEvaluation"] ||
                 "";
               const taComment =
                 row["Nhận xét trợ giảng"] || // Output format
-                row["Nhận xét TA"] ||         // Template format
+                row["Nhận xét TA"] || // Template format
                 row["TA Comment"] ||
                 row["taComment"] ||
                 "";
@@ -826,7 +860,7 @@ export default function BuilderPage() {
                 }}
               >
                 🎓
-              </div>
+          </div>
               <Title
                 level={1}
                 style={{
@@ -861,9 +895,9 @@ export default function BuilderPage() {
                 >
                   👩‍🏫 Giáo viên: <strong>{teacher}</strong>
                 </Text>
-              </div>
-            </div>
           </div>
+          </div>
+        </div>
         </div>
 
         <Card
@@ -904,7 +938,7 @@ export default function BuilderPage() {
                   {editingId ? "✏️" : "📝"}
                 </span>
                 {editingId ? "Chỉnh sửa hoạt động" : "Thêm hoạt động mới"}
-              </div>
+          </div>
               <Space size="middle">
                 <Tooltip title="Tải file Excel mẫu để điền dữ liệu">
                   <Button
@@ -976,7 +1010,7 @@ export default function BuilderPage() {
                   />
                 </Tooltip>
               </Space>
-            </div>
+        </div>
           }
           style={{
             marginBottom: "32px",
@@ -1293,7 +1327,7 @@ export default function BuilderPage() {
                     📚
                   </span>
                   Danh sách hoạt động ({items.length} hoạt động)
-                </div>
+                      </div>
               }
               extra={
                 <Space size="middle">
@@ -1395,7 +1429,7 @@ export default function BuilderPage() {
               }}
             >
               📝
-            </div>
+        </div>
             <Title
               level={2}
               style={{
@@ -1472,7 +1506,7 @@ export default function BuilderPage() {
                 <EyeOutlined />
               </span>
               Preview Báo Cáo
-            </div>
+        </div>
           }
           open={previewVisible}
           onCancel={() => setPreviewVisible(false)}
@@ -1532,10 +1566,10 @@ export default function BuilderPage() {
                 srcDoc={html}
                 style={{ width: "100%", height: "700px", border: "none" }}
               />
-            </div>
+          </div>
           )}
         </Modal>
-      </div>
+        </div>
     </div>
   );
 }

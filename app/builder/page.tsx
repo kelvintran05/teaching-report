@@ -25,6 +25,7 @@ import {
   PrinterOutlined,
   CopyOutlined,
   EyeOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 import dayjs, { Dayjs } from "dayjs";
 import * as XLSX from "xlsx";
@@ -441,6 +442,193 @@ export default function BuilderPage() {
     }
   }
 
+  const downloadTemplate = () => {
+    // Create a sample Excel template for users to fill
+    const template = [
+      {
+        Ngày: "10/10/2024",
+        Trường: "TH Đinh Bộ Lĩnh",
+        Buổi: "Sáng",
+        Tiết: "1",
+        Lớp: "2/1,2/2",
+        "Tên bài": "Toán - Phép cộng trong phạm vi 20",
+        "Trợ giảng": "Ngọc An",
+        "Tình hình tiết học":
+          "Tình hình cơ sở vật chất: Ti vi sử dụng bình thường",
+        "Tự đánh giá": "Học sinh tham gia tích cực",
+        "Nhận xét TA":
+          "Trợ giảng biết việc, bao quát lớp tuy nhiên vẫn chưa thực sự xử lí tốt các tình huống",
+      },
+      {
+        Ngày: "11/10/2024",
+        Trường: "TH Huỳnh Văn Chính",
+        Buổi: "Chiều",
+        Tiết: "3",
+        Lớp: "1/12",
+        "Tên bài": "Tiếng Việt - Luyện đọc",
+        "Trợ giảng": "Yến Nhi",
+        "Tình hình tiết học": "Lớp học yên tĩnh, máy chiếu hoạt động tốt",
+        "Tự đánh giá": "Bài giảng đạt mục tiêu",
+        "Nhận xét TA": "Trợ giảng hỗ trợ tốt",
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(template);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Template");
+
+    // Auto-size columns
+    const maxWidth = 30;
+    const colWidths = [
+      { wch: 12 }, // Ngày
+      { wch: 20 }, // Trường
+      { wch: 10 }, // Buổi
+      { wch: 8 }, // Tiết
+      { wch: 15 }, // Lớp
+      { wch: maxWidth }, // Tên bài
+      { wch: 15 }, // Trợ giảng
+      { wch: maxWidth }, // Tình hình
+      { wch: maxWidth }, // Tự đánh giá
+      { wch: maxWidth }, // Nhận xét TA
+    ];
+    worksheet["!cols"] = colWidths;
+
+    XLSX.writeFile(workbook, "Template_Import_Hoat_Dong.xlsx");
+
+    message.success({
+      content: "📥 Đã tải file template Excel mẫu!",
+      duration: 3,
+    });
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target?.result as ArrayBuffer);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet);
+
+        if (jsonData.length === 0) {
+          message.warning("File Excel không có dữ liệu!");
+          return;
+        }
+
+        // Parse data from Excel to Item format
+        const importedItems: Item[] = jsonData
+          .map((row, index) => {
+            try {
+              // Map Excel columns to Item fields
+              // Expected columns: Ngày, Trường, Buổi, Tiết, Lớp, Tên bài, Trợ giảng, Tình hình, Tự đánh giá, Nhận xét TA
+              const date = row["Ngày"] || row["Date"] || row["date"];
+              const schoolName =
+                row["Trường"] || row["School"] || row["schoolName"];
+              const session = row["Buổi"] || row["Session"] || row["session"];
+              const period =
+                row["Tiết"] || row["Period"] || row["period"] || "";
+              const className =
+                row["Lớp"] || row["Class"] || row["className"] || "";
+              const lessonName =
+                row["Tên bài"] || row["Lesson"] || row["lessonName"];
+              const ta = row["Trợ giảng"] || row["TA"] || row["ta"] || "";
+              const classStatus =
+                row["Tình hình"] ||
+                row["Tình hình tiết học"] ||
+                row["Status"] ||
+                row["classStatus"] ||
+                "";
+              const selfEvaluation =
+                row["Tự đánh giá"] ||
+                row["Self Evaluation"] ||
+                row["selfEvaluation"] ||
+                "";
+              const taComment =
+                row["Nhận xét TA"] ||
+                row["TA Comment"] ||
+                row["taComment"] ||
+                "";
+
+              if (!date || !schoolName || !session || !lessonName) {
+                return null; // Skip invalid rows
+              }
+
+              // Parse date
+              let parsedDate = "";
+              if (typeof date === "number") {
+                // Excel serial date
+                const excelDate = XLSX.SSF.parse_date_code(date);
+                parsedDate = dayjs(
+                  new Date(
+                    excelDate.y,
+                    excelDate.m - 1,
+                    excelDate.d
+                  )
+                ).format("YYYY-MM-DD");
+              } else {
+                // Try to parse string date
+                parsedDate = dayjs(date).format("YYYY-MM-DD");
+              }
+
+              // Parse className to array
+              const classNameArray = className
+                .toString()
+                .split(/[,;]/)
+                .map((c: string) => c.trim())
+                .filter((c: string) => c);
+
+              return {
+                id: `${Date.now()}-${index}`,
+                date: parsedDate,
+                schoolName: schoolName.toString().trim(),
+                session: session.toString().trim(),
+                period: period.toString().trim(),
+                className: classNameArray,
+                lessonName: lessonName.toString().trim(),
+                ta: ta.toString().trim(),
+                classStatus: classStatus.toString().trim(),
+                selfEvaluation: selfEvaluation.toString().trim(),
+                taComment: taComment.toString().trim(),
+              };
+            } catch (error) {
+              console.error(`Error parsing row ${index}:`, error);
+              return null;
+            }
+          })
+          .filter((item): item is Item => item !== null);
+
+        if (importedItems.length === 0) {
+          message.error(
+            "Không thể đọc dữ liệu từ file! Vui lòng kiểm tra định dạng file."
+          );
+          return;
+        }
+
+        // Add imported items to existing items
+        setItems((prevItems) => [...prevItems, ...importedItems]);
+
+        message.success({
+          content: `📥 Đã import thành công ${importedItems.length} hoạt động từ file Excel!`,
+          duration: 4,
+        });
+      } catch (error) {
+        console.error("Error reading file:", error);
+        message.error({
+          content: "❌ Có lỗi khi đọc file Excel. Vui lòng thử lại!",
+          duration: 3,
+        });
+      }
+    };
+    reader.readAsArrayBuffer(file);
+
+    // Reset input để có thể upload lại cùng file
+    event.target.value = "";
+  };
+
   const handlePrint = () => {
     if (!html) return;
     const w = window.open("", "_blank");
@@ -643,9 +831,17 @@ export default function BuilderPage() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "12px",
-                fontSize: "18px",
-                fontWeight: "600",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  fontSize: "18px",
+                  fontWeight: "600",
                 color: "#D04770",
               }}
             >
@@ -666,6 +862,79 @@ export default function BuilderPage() {
                 {editingId ? "✏️" : "📝"}
               </span>
               {editingId ? "Chỉnh sửa hoạt động" : "Thêm hoạt động mới"}
+            </div>
+              <Space size="middle">
+                <Tooltip title="Tải file Excel mẫu để điền dữ liệu">
+                  <Button
+                    icon={<FileExcelOutlined />}
+                    size="large"
+                    onClick={downloadTemplate}
+                    style={{
+                      borderRadius: "12px",
+                      border: "2px solid #FFB6C1",
+                      color: "#D04770",
+                      fontWeight: "600",
+                      height: "40px",
+                      padding: "0 20px",
+                      background: "transparent",
+                      transition: "all 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "#FFF5F8";
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow =
+                        "0 4px 12px rgba(255, 182, 193, 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "transparent";
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    📋 Template
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Upload file Excel để import dữ liệu hàng loạt">
+                  <label htmlFor="file-upload">
+                    <Button
+                      icon={<UploadOutlined />}
+                      size="large"
+                      style={{
+                        borderRadius: "12px",
+                        border: "2px solid #96E6B3",
+                        color: "#2F8F5F",
+                        fontWeight: "600",
+                        height: "40px",
+                        padding: "0 20px",
+                        background: "transparent",
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background =
+                          "linear-gradient(135deg, #96E6B3 0%, #D4FCE7 100%)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 4px 12px rgba(150, 230, 179, 0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "transparent";
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      📤 Upload
+                    </Button>
+                  </label>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleFileUpload}
+                    style={{ display: "none" }}
+                  />
+                </Tooltip>
+              </Space>
             </div>
           }
           style={{

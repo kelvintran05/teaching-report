@@ -1,49 +1,43 @@
-import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { prisma } from "@/lib/prisma"
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession()
-    
+    const session = await getServerSession();
+
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const activities = await prisma.activity.findMany({
       where: {
-        userId: (session.user as any).id
+        userId: (session.user as any).id,
       },
       orderBy: {
-        date: 'desc'
-      }
-    })
+        date: "desc",
+      },
+    });
 
-    return NextResponse.json({ activities })
+    return NextResponse.json({ activities });
   } catch (error) {
-    console.error("Get activities error:", error)
+    console.error("Get activities error:", error);
     return NextResponse.json(
       { error: "Failed to fetch activities" },
       { status: 500 }
-    )
+    );
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession()
-    
+    const session = await getServerSession();
+
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json()
+    const body = await request.json();
     const {
       date,
       schoolName,
@@ -54,8 +48,8 @@ export async function POST(request: Request) {
       ta,
       classStatus,
       selfEvaluation,
-      taComment
-    } = body
+      taComment,
+    } = body;
 
     const activity = await prisma.activity.create({
       data: {
@@ -69,17 +63,16 @@ export async function POST(request: Request) {
         ta,
         classStatus,
         selfEvaluation,
-        taComment
-      }
-    })
+        taComment,
+      },
+    });
 
-    return NextResponse.json({ activity }, { status: 201 })
+    return NextResponse.json({ activity }, { status: 201 });
   } catch (error) {
-    console.error("Create activity error:", error)
+    console.error("Create activity error:", error);
     return NextResponse.json(
       { error: "Failed to create activity" },
       { status: 500 }
-    )
+    );
   }
 }
-

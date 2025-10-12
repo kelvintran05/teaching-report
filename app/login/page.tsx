@@ -42,7 +42,8 @@ export default function LoginPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #FFF5F8 0%, #F0F9FF 50%, #FFF0F5 100%)",
+        background:
+          "linear-gradient(135deg, #FFF5F8 0%, #F0F9FF 50%, #FFF0F5 100%)",
         padding: "24px",
       }}
     >
@@ -72,12 +73,7 @@ export default function LoginPage() {
           </Text>
         </div>
 
-        <Form
-          name="login"
-          onFinish={onFinish}
-          layout="vertical"
-          size="large"
-        >
+        <Form name="login" onFinish={onFinish} layout="vertical" size="large">
           <Form.Item
             name="email"
             label="📧 Email"
@@ -144,4 +140,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

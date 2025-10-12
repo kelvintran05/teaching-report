@@ -46,7 +46,8 @@ export default function RegisterPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #FFF5F8 0%, #F0F9FF 50%, #FFF0F5 100%)",
+        background:
+          "linear-gradient(135deg, #FFF5F8 0%, #F0F9FF 50%, #FFF0F5 100%)",
         padding: "24px",
       }}
     >
@@ -87,10 +88,7 @@ export default function RegisterPage() {
             label="👤 Họ và tên"
             rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
           >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Nguyễn Văn A"
-            />
+            <Input prefix={<UserOutlined />} placeholder="Nguyễn Văn A" />
           </Form.Item>
 
           <Form.Item
@@ -124,15 +122,15 @@ export default function RegisterPage() {
           <Form.Item
             name="confirmPassword"
             label="🔐 Xác nhận mật khẩu"
-            dependencies={['password']}
+            dependencies={["password"]}
             rules={[
               { required: true, message: "Vui lòng xác nhận mật khẩu!" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('Mật khẩu không khớp!'));
+                  return Promise.reject(new Error("Mật khẩu không khớp!"));
                 },
               }),
             ]}
@@ -184,4 +182,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-

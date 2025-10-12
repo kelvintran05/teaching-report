@@ -14,6 +14,7 @@
 ### **Option 1: Vercel Postgres (Khuyến nghị - Miễn phí)**
 
 1. **Tạo Vercel Postgres Database:**
+
    - Truy cập: https://vercel.com/dashboard
    - Click **Storage** → **Create Database**
    - Chọn **Postgres**
@@ -21,10 +22,12 @@
    - Click **Create**
 
 2. **Copy DATABASE_URL:**
+
    - Trong Vercel Dashboard → Storage → Your Database
    - Tab **Settings** → Copy **DATABASE_URL**
 
 3. **Add Environment Variables:**
+
    - Project Settings → Environment Variables
    - Add:
      ```
@@ -34,11 +37,13 @@
      ```
 
 4. **Generate NEXTAUTH_SECRET:**
+
    ```bash
    openssl rand -base64 32
    ```
 
 5. **Run migration:**
+
    ```bash
    npx prisma migrate deploy
    npx prisma generate
@@ -54,10 +59,12 @@
 ### **Option 2: Local Development**
 
 1. **Install PostgreSQL:**
+
    - Mac: `brew install postgresql`
    - Or download from: https://www.postgresql.org/download/
 
 2. **Create database:**
+
    ```bash
    psql postgres
    CREATE DATABASE teaching_report;
@@ -65,6 +72,7 @@
    ```
 
 3. **Create `.env` file:**
+
    ```env
    DATABASE_URL="postgresql://user:password@localhost:5432/teaching_report"
    NEXTAUTH_URL="http://localhost:3000"
@@ -72,6 +80,7 @@
    ```
 
 4. **Run migrations:**
+
    ```bash
    npx prisma migrate dev --name init
    npx prisma generate
@@ -85,16 +94,19 @@
 ## 🎯 Cách sử dụng:
 
 ### **1. Đăng ký tài khoản:**
+
 - Truy cập: `http://localhost:3000/register`
 - Điền thông tin: Tên, Email, Mật khẩu
 - Click "Tạo Tài Khoản"
 
 ### **2. Đăng nhập:**
+
 - Truy cập: `http://localhost:3000/login`
 - Nhập Email & Mật khẩu
 - Click "Đăng Nhập"
 
 ### **3. Sử dụng Builder:**
+
 - Sau khi đăng nhập → tự động chuyển đến `/builder`
 - Thêm activities như bình thường
 - **Data tự động lưu vào database!** 🎉
@@ -102,6 +114,7 @@
 ## 📊 Database Schema:
 
 ### **User Model:**
+
 ```prisma
 model User {
   id         String     @id @default(cuid())
@@ -113,6 +126,7 @@ model User {
 ```
 
 ### **Activity Model:**
+
 ```prisma
 model Activity {
   id             String   @id @default(cuid())
@@ -127,7 +141,7 @@ model Activity {
   classStatus    String?
   selfEvaluation String?
   taComment      String?
-  
+
   user User @relation(...)
 }
 ```
@@ -177,4 +191,3 @@ npx prisma migrate deploy
 - ✅ Beautiful UI với Ant Design
 
 Enjoy! 🚀✨
-

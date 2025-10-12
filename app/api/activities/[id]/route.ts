@@ -1,22 +1,19 @@
-import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { prisma } from "@/lib/prisma"
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { prisma } from "@/lib/prisma";
 
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession()
-    
+    const session = await getServerSession();
+
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json()
+    const body = await request.json();
     const {
       date,
       schoolName,
@@ -27,19 +24,19 @@ export async function PUT(
       ta,
       classStatus,
       selfEvaluation,
-      taComment
-    } = body
+      taComment,
+    } = body;
 
     // Check ownership
     const existing = await prisma.activity.findUnique({
-      where: { id: params.id }
-    })
+      where: { id: params.id },
+    });
 
     if (!existing || existing.userId !== (session.user as any).id) {
       return NextResponse.json(
         { error: "Activity not found" },
         { status: 404 }
-      )
+      );
     }
 
     const activity = await prisma.activity.update({
@@ -54,17 +51,17 @@ export async function PUT(
         ta,
         classStatus,
         selfEvaluation,
-        taComment
-      }
-    })
+        taComment,
+      },
+    });
 
-    return NextResponse.json({ activity })
+    return NextResponse.json({ activity });
   } catch (error) {
-    console.error("Update activity error:", error)
+    console.error("Update activity error:", error);
     return NextResponse.json(
       { error: "Failed to update activity" },
       { status: 500 }
-    )
+    );
   }
 }
 
@@ -73,38 +70,34 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession()
-    
+    const session = await getServerSession();
+
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check ownership
     const existing = await prisma.activity.findUnique({
-      where: { id: params.id }
-    })
+      where: { id: params.id },
+    });
 
     if (!existing || existing.userId !== (session.user as any).id) {
       return NextResponse.json(
         { error: "Activity not found" },
         { status: 404 }
-      )
+      );
     }
 
     await prisma.activity.delete({
-      where: { id: params.id }
-    })
+      where: { id: params.id },
+    });
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Delete activity error:", error)
+    console.error("Delete activity error:", error);
     return NextResponse.json(
       { error: "Failed to delete activity" },
       { status: 500 }
-    )
+    );
   }
 }
-

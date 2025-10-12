@@ -1,0 +1,36 @@
+{
+  "week_range": "29/09 - 03/10/2025",
+  "teacher": "Huỳnh Thị Hoàng Anh",
+  "generated_at": "Auto",
+  "total_hours": 8,
+  "items": [
+    {
+      "date": "Ngày",
+      "class": "Thứ",
+      "topic": "Trường",
+      "hours": 2,
+      "notes": ""
+    },
+    {
+      "date": "2025-09-29 00:00:00",
+      "class": "2",
+      "topic": "TH Đinh Bộ Lĩnh",
+      "hours": 2,
+      "notes": ""
+    },
+    {
+      "date": "2025-09-29 00:00:00",
+      "class": "2",
+      "topic": "TH Đinh Bộ Lĩnh",
+      "hours": 2,
+      "notes": ""
+    },
+    {
+      "date": "2025-09-30 00:00:00",
+      "class": "3",
+      "topic": "TH Huỳnh Văn Chính",
+      "hours": 2,
+      "notes": ""
+    }
+  ]
+}

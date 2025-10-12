@@ -1,0 +1,66 @@
+{
+  "version": "2025-10-11-1",
+  "schools": [
+    {
+      "id": "school_a",
+      "name": "Trường Tiểu học A",
+      "classes": [
+        {
+          "id": "1A",
+          "name": "Lớp 1A"
+        },
+        {
+          "id": "1B",
+          "name": "Lớp 1B"
+        },
+        {
+          "id": "2A",
+          "name": "Lớp 2A"
+        },
+        {
+          "id": "2B",
+          "name": "Lớp 2B"
+        }
+      ]
+    },
+    {
+      "id": "school_b",
+      "name": "Trường Tiểu học B",
+      "classes": [
+        {
+          "id": "3A",
+          "name": "Lớp 3A"
+        },
+        {
+          "id": "3B",
+          "name": "Lớp 3B"
+        },
+        {
+          "id": "4A",
+          "name": "Lớp 4A"
+        },
+        {
+          "id": "5A",
+          "name": "Lớp 5A"
+        }
+      ]
+    }
+  ],
+  "sessions": [
+    "Sáng",
+    "Chiều"
+  ],
+  "periods": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "teaching_assistants": [
+    "TA Nguyễn An",
+    "TA Trần Bình",
+    "TA Lê Chi",
+    "TA Phạm Dũng"
+  ]
+}

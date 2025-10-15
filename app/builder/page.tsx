@@ -1168,14 +1168,16 @@ export default function BuilderPage() {
               }}
             >
               <div style={{ overflowX: "auto", padding: "16px" }}>
-                <table style={{ 
-                  width: "100%", 
-                  borderCollapse: "collapse",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                  fontSize: "13px",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
-                }}>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    fontSize: "13px",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                  }}
+                >
                   <thead>
                     <tr style={{ backgroundColor: "#f8fafc" }}>
                       <th
@@ -1236,10 +1238,16 @@ export default function BuilderPage() {
                     {days.map((day) => {
                       const dayData = timetable.morning[day];
                       return (
-                        <tr key={day} style={{ 
-                          backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
-                          transition: "all 0.2s ease"
-                        }}>
+                        <tr
+                          key={day}
+                          style={{
+                            backgroundColor:
+                              dayData?.classes?.length > 0
+                                ? "#ffffff"
+                                : "#fafbfc",
+                            transition: "all 0.2s ease",
+                          }}
+                        >
                           <td
                             style={{
                               padding: "12px 8px",
@@ -1247,7 +1255,10 @@ export default function BuilderPage() {
                               fontWeight: "600",
                               fontSize: "12px",
                               color: "#374151",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#fef3c7" : "#f3f4f6",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#fef3c7"
+                                  : "#f3f4f6",
                               textAlign: "center",
                             }}
                           >
@@ -1259,35 +1270,50 @@ export default function BuilderPage() {
                               border: "1px solid #e2e8f0",
                               fontSize: "12px",
                               color: "#1f2937",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#ffffff"
+                                  : "#fafbfc",
                             }}
                           >
                             {dayData?.classes?.length > 0 ? (
-                              <div style={{ 
-                                display: "flex", 
-                                flexWrap: "wrap", 
-                                gap: "3px",
-                                justifyContent: "center"
-                              }}>
-                                {dayData.classes.map((cls: string, idx: number) => (
-                                  <span
-                                    key={idx}
-                                    style={{
-                                      backgroundColor: "#dbeafe",
-                                      color: "#1e40af",
-                                      padding: "2px 6px",
-                                      borderRadius: "4px",
-                                      fontSize: "11px",
-                                      fontWeight: "500",
-                                      whiteSpace: "nowrap"
-                                    }}
-                                  >
-                                    {cls}
-                                  </span>
-                                ))}
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: "3px",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                {dayData.classes.map(
+                                  (cls: string, idx: number) => (
+                                    <span
+                                      key={idx}
+                                      style={{
+                                        backgroundColor: "#dbeafe",
+                                        color: "#1e40af",
+                                        padding: "2px 6px",
+                                        borderRadius: "4px",
+                                        fontSize: "11px",
+                                        fontWeight: "500",
+                                        whiteSpace: "nowrap",
+                                      }}
+                                    >
+                                      {cls}
+                                    </span>
+                                  )
+                                )}
                               </div>
                             ) : (
-                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                              <span
+                                style={{
+                                  color: "#9ca3af",
+                                  fontStyle: "italic",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                -
+                              </span>
                             )}
                           </td>
                           <td
@@ -1296,20 +1322,33 @@ export default function BuilderPage() {
                               border: "1px solid #e2e8f0",
                               fontSize: "12px",
                               color: "#1f2937",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#ffffff"
+                                  : "#fafbfc",
                               textAlign: "center",
                             }}
                           >
                             {dayData?.teacher ? (
-                              <span style={{ 
-                                fontWeight: "500",
-                                color: "#059669",
-                                fontSize: "11px"
-                              }}>
+                              <span
+                                style={{
+                                  fontWeight: "500",
+                                  color: "#059669",
+                                  fontSize: "11px",
+                                }}
+                              >
                                 {dayData.teacher}
                               </span>
                             ) : (
-                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                              <span
+                                style={{
+                                  color: "#9ca3af",
+                                  fontStyle: "italic",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                -
+                              </span>
                             )}
                           </td>
                           <td
@@ -1318,20 +1357,33 @@ export default function BuilderPage() {
                               border: "1px solid #e2e8f0",
                               fontSize: "12px",
                               color: "#1f2937",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#ffffff"
+                                  : "#fafbfc",
                               textAlign: "center",
                             }}
                           >
                             {dayData?.ta && dayData.ta !== "-" ? (
-                              <span style={{ 
-                                fontWeight: "500",
-                                color: "#7c3aed",
-                                fontSize: "11px"
-                              }}>
+                              <span
+                                style={{
+                                  fontWeight: "500",
+                                  color: "#7c3aed",
+                                  fontSize: "11px",
+                                }}
+                              >
                                 {dayData.ta}
                               </span>
                             ) : (
-                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                              <span
+                                style={{
+                                  color: "#9ca3af",
+                                  fontStyle: "italic",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                -
+                              </span>
                             )}
                           </td>
                         </tr>
@@ -1377,14 +1429,16 @@ export default function BuilderPage() {
               }}
             >
               <div style={{ overflowX: "auto", padding: "16px" }}>
-                <table style={{ 
-                  width: "100%", 
-                  borderCollapse: "collapse",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                  fontSize: "13px",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
-                }}>
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    fontSize: "13px",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                  }}
+                >
                   <thead>
                     <tr style={{ backgroundColor: "#f8fafc" }}>
                       <th
@@ -1445,10 +1499,16 @@ export default function BuilderPage() {
                     {days.map((day) => {
                       const dayData = timetable.afternoon[day];
                       return (
-                        <tr key={day} style={{ 
-                          backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
-                          transition: "all 0.2s ease"
-                        }}>
+                        <tr
+                          key={day}
+                          style={{
+                            backgroundColor:
+                              dayData?.classes?.length > 0
+                                ? "#ffffff"
+                                : "#fafbfc",
+                            transition: "all 0.2s ease",
+                          }}
+                        >
                           <td
                             style={{
                               padding: "12px 8px",
@@ -1456,7 +1516,10 @@ export default function BuilderPage() {
                               fontWeight: "600",
                               fontSize: "12px",
                               color: "#374151",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#fef3c7" : "#f3f4f6",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#fef3c7"
+                                  : "#f3f4f6",
                               textAlign: "center",
                             }}
                           >
@@ -1468,35 +1531,50 @@ export default function BuilderPage() {
                               border: "1px solid #e2e8f0",
                               fontSize: "12px",
                               color: "#1f2937",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#ffffff"
+                                  : "#fafbfc",
                             }}
                           >
                             {dayData?.classes?.length > 0 ? (
-                              <div style={{ 
-                                display: "flex", 
-                                flexWrap: "wrap", 
-                                gap: "3px",
-                                justifyContent: "center"
-                              }}>
-                                {dayData.classes.map((cls: string, idx: number) => (
-                                  <span
-                                    key={idx}
-                                    style={{
-                                      backgroundColor: "#dbeafe",
-                                      color: "#1e40af",
-                                      padding: "2px 6px",
-                                      borderRadius: "4px",
-                                      fontSize: "11px",
-                                      fontWeight: "500",
-                                      whiteSpace: "nowrap"
-                                    }}
-                                  >
-                                    {cls}
-                                  </span>
-                                ))}
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: "3px",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                {dayData.classes.map(
+                                  (cls: string, idx: number) => (
+                                    <span
+                                      key={idx}
+                                      style={{
+                                        backgroundColor: "#dbeafe",
+                                        color: "#1e40af",
+                                        padding: "2px 6px",
+                                        borderRadius: "4px",
+                                        fontSize: "11px",
+                                        fontWeight: "500",
+                                        whiteSpace: "nowrap",
+                                      }}
+                                    >
+                                      {cls}
+                                    </span>
+                                  )
+                                )}
                               </div>
                             ) : (
-                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                              <span
+                                style={{
+                                  color: "#9ca3af",
+                                  fontStyle: "italic",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                -
+                              </span>
                             )}
                           </td>
                           <td
@@ -1505,20 +1583,33 @@ export default function BuilderPage() {
                               border: "1px solid #e2e8f0",
                               fontSize: "12px",
                               color: "#1f2937",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#ffffff"
+                                  : "#fafbfc",
                               textAlign: "center",
                             }}
                           >
                             {dayData?.teacher ? (
-                              <span style={{ 
-                                fontWeight: "500",
-                                color: "#059669",
-                                fontSize: "11px"
-                              }}>
+                              <span
+                                style={{
+                                  fontWeight: "500",
+                                  color: "#059669",
+                                  fontSize: "11px",
+                                }}
+                              >
                                 {dayData.teacher}
                               </span>
                             ) : (
-                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                              <span
+                                style={{
+                                  color: "#9ca3af",
+                                  fontStyle: "italic",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                -
+                              </span>
                             )}
                           </td>
                           <td
@@ -1527,20 +1618,33 @@ export default function BuilderPage() {
                               border: "1px solid #e2e8f0",
                               fontSize: "12px",
                               color: "#1f2937",
-                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              backgroundColor:
+                                dayData?.classes?.length > 0
+                                  ? "#ffffff"
+                                  : "#fafbfc",
                               textAlign: "center",
                             }}
                           >
                             {dayData?.ta && dayData.ta !== "-" ? (
-                              <span style={{ 
-                                fontWeight: "500",
-                                color: "#7c3aed",
-                                fontSize: "11px"
-                              }}>
+                              <span
+                                style={{
+                                  fontWeight: "500",
+                                  color: "#7c3aed",
+                                  fontSize: "11px",
+                                }}
+                              >
                                 {dayData.ta}
                               </span>
                             ) : (
-                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                              <span
+                                style={{
+                                  color: "#9ca3af",
+                                  fontStyle: "italic",
+                                  fontSize: "11px",
+                                }}
+                              >
+                                -
+                              </span>
                             )}
                           </td>
                         </tr>

@@ -18,18 +18,18 @@ Tính năng này cho phép bạn **import hàng loạt** các hoạt động gi�
 
 Mở file Excel vừa tải về và điền thông tin theo các cột:
 
-| Cột | Tên Cột | Mô tả | Ví dụ |
-|-----|---------|-------|-------|
-| A | **Ngày** | Ngày giảng dạy (DD/MM/YYYY) | `10/10/2024` |
-| B | **Trường** | Tên trường | `TH Đinh Bộ Lĩnh` |
-| C | **Buổi** | Buổi học | `Sáng` hoặc `Chiều` |
-| D | **Tiết** | Tiết học | `1`, `2`, `3`... |
-| E | **Lớp** | Tên lớp (có thể nhiều lớp, cách nhau bởi dấu phẩy) | `2/1,2/2` hoặc `1/12` |
-| F | **Tên bài** | Tên bài giảng | `Toán - Phép cộng trong phạm vi 20` |
-| G | **Trợ giảng** | Tên trợ giảng | `Ngọc An` hoặc để trống |
-| H | **Tình hình tiết học** | Tình hình lớp học, cơ sở vật chất | `Tình hình cơ sở vật chất: Ti vi sử dụng bình thường` |
-| I | **Tự đánh giá** | Tự đánh giá của giáo viên | `Học sinh tham gia tích cực` |
-| J | **Nhận xét TA** | Nhận xét về trợ giảng | `Trợ giảng biết việc, bao quát lớp` |
+| Cột | Tên Cột                | Mô tả                                              | Ví dụ                                                 |
+| --- | ---------------------- | -------------------------------------------------- | ----------------------------------------------------- |
+| A   | **Ngày**               | Ngày giảng dạy (DD/MM/YYYY)                        | `10/10/2024`                                          |
+| B   | **Trường**             | Tên trường                                         | `TH Đinh Bộ Lĩnh`                                     |
+| C   | **Buổi**               | Buổi học                                           | `Sáng` hoặc `Chiều`                                   |
+| D   | **Tiết**               | Tiết học                                           | `1`, `2`, `3`...                                      |
+| E   | **Lớp**                | Tên lớp (có thể nhiều lớp, cách nhau bởi dấu phẩy) | `2/1,2/2` hoặc `1/12`                                 |
+| F   | **Tên bài**            | Tên bài giảng                                      | `Toán - Phép cộng trong phạm vi 20`                   |
+| G   | **Trợ giảng**          | Tên trợ giảng                                      | `Ngọc An` hoặc để trống                               |
+| H   | **Tình hình tiết học** | Tình hình lớp học, cơ sở vật chất                  | `Tình hình cơ sở vật chất: Ti vi sử dụng bình thường` |
+| I   | **Tự đánh giá**        | Tự đánh giá của giáo viên                          | `Học sinh tham gia tích cực`                          |
+| J   | **Nhận xét TA**        | Nhận xét về trợ giảng                              | `Trợ giảng biết việc, bao quát lớp`                   |
 
 ### **Bước 3: Upload File**
 
@@ -55,6 +55,7 @@ Mở file Excel vừa tải về và điền thông tin theo các cột:
 ### **1. Định dạng ngày tháng**
 
 File Excel hỗ trợ nhiều định dạng ngày:
+
 - ✅ `10/10/2024` (DD/MM/YYYY)
 - ✅ `2024-10-10` (YYYY-MM-DD)
 - ✅ Excel date serial number (tự động convert)
@@ -62,6 +63,7 @@ File Excel hỗ trợ nhiều định dạng ngày:
 ### **2. Nhiều lớp cùng lúc**
 
 Để nhập nhiều lớp cho một hoạt động, cách nhau bởi **dấu phẩy** hoặc **dấu chấm phẩy**:
+
 - ✅ `2/1,2/2` → 2 lớp
 - ✅ `1/12;1/13;1/14` → 3 lớp
 - ✅ `1/17` → 1 lớp
@@ -69,6 +71,7 @@ File Excel hỗ trợ nhiều định dạng ngày:
 ### **3. Các trường bắt buộc**
 
 Để import thành công, **bắt buộc phải có** các cột:
+
 - ⚠️ **Ngày**
 - ⚠️ **Trường**
 - ⚠️ **Buổi**
@@ -79,6 +82,7 @@ Các cột khác có thể để trống.
 ### **4. Tên cột linh hoạt**
 
 Hệ thống hỗ trợ nhiều tên cột (tiếng Việt và tiếng Anh):
+
 - `Ngày` / `Date` / `date`
 - `Trường` / `School` / `schoolName`
 - `Buổi` / `Session` / `session`
@@ -111,6 +115,7 @@ Bạn có thể điền dữ liệu cho **nhiều tuần** trong cùng một fil
 ### **2. Sao chép từ file cũ**
 
 Nếu bạn có báo cáo tuần trước, có thể:
+
 1. Mở file báo cáo cũ đã xuất
 2. Copy các dòng cần thiết
 3. Paste vào file template mới
@@ -119,6 +124,7 @@ Nếu bạn có báo cáo tuần trước, có thể:
 ### **3. Kết hợp nhập liệu**
 
 Bạn có thể:
+
 - Upload file Excel để nhập hàng loạt
 - Sau đó thêm/sửa từng hoạt động riêng lẻ bằng form
 
@@ -143,6 +149,7 @@ Bạn có thể upload file Excel **nhiều lần**. Các hoạt động mới s
 **Nguyên nhân:** Thiếu các cột bắt buộc hoặc định dạng không đúng.
 
 **Giải pháp:**
+
 1. Sử dụng file Template chính thức (tải từ nút 📋 Template)
 2. Đảm bảo có đủ các cột: `Ngày`, `Trường`, `Buổi`, `Tên bài`
 3. Kiểm tra định dạng ngày tháng
@@ -154,6 +161,7 @@ Bạn có thể upload file Excel **nhiều lần**. Các hoạt động mới s
 **Nguyên nhân:** File bị lỗi hoặc không phải định dạng Excel hợp lệ.
 
 **Giải pháp:**
+
 1. Chỉ upload file `.xlsx` hoặc `.xls`
 2. Tải lại file Template và thử lại
 3. Đảm bảo file không bị corrupt
@@ -181,4 +189,3 @@ Bạn có thể upload file Excel **nhiều lần**. Các hoạt động mới s
 ---
 
 **Chúc bạn sử dụng tính năng thành công!** 🚀✨
-

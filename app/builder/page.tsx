@@ -204,36 +204,121 @@ const TIMETABLE_DATA: Record<string, any> = {
     morning: {
       "Thứ 2": { classes: ["5/10"], teacher: "Phụng Nhi", ta: "Phúc Hảo" },
       "Thứ 3": { classes: [], teacher: "Phụng Nhi", ta: "Thanh Hằng" },
-      "Thứ 4": { classes: ["1/7", "5/9", "1/5", "2/5"], teacher: "Phụng Nhi", ta: "Mỹ Duyên" },
+      "Thứ 4": {
+        classes: ["1/7", "5/9", "1/5", "2/5"],
+        teacher: "Phụng Nhi",
+        ta: "Mỹ Duyên",
+      },
       "Thứ 5": { classes: [], teacher: "Minh Chí", ta: "Nhật Hào" },
-      "Thứ 6": { classes: ["5/5", "1/9", "2/4", "1/6", "5/6", "1/8", "1/4", "5/12", "5/8", "2/6"], teacher: "Ngọc Trâm", ta: "Mỹ Duyên" },
-      "Thứ 7": { classes: ["5/7", "5/4", "2/7"], teacher: "Phụng Nhi", ta: "Thuý Bình" }
+      "Thứ 6": {
+        classes: [
+          "5/5",
+          "1/9",
+          "2/4",
+          "1/6",
+          "5/6",
+          "1/8",
+          "1/4",
+          "5/12",
+          "5/8",
+          "2/6",
+        ],
+        teacher: "Ngọc Trâm",
+        ta: "Mỹ Duyên",
+      },
+      "Thứ 7": {
+        classes: ["5/7", "5/4", "2/7"],
+        teacher: "Phụng Nhi",
+        ta: "Thuý Bình",
+      },
     },
     afternoon: {
-      "Thứ 2": { classes: ["2/1", "3/1", "4/1"], teacher: "Hoàng Anh", ta: "Minh Khải" },
-      "Thứ 3": { classes: ["1/2", "3/3", "2/2"], teacher: "Quốc Thắng", ta: "Minh Khải" },
-      "Thứ 4": { classes: ["4/4", "4/2", "1/3", "3/9", "4/3", "1/1", "2/9", "4/5"], teacher: "Hoàng Anh", ta: "Thanh Tú" },
-      "Thứ 5": { classes: ["4/7", "3/2", "3/8", "2/3", "2/8", "5/2", "3/6"], teacher: "Phụng Nhi", ta: "Anh Thư" },
-      "Thứ 6": { classes: ["4/11", "4/8", "3/4", "5/3", "3/10", "5/1", "4/9"], teacher: "Minh Chí", ta: "Thanh Tú" },
-      "Thứ 7": { classes: ["3/7", "4/10", "3/5", "4/6", "3/11"], teacher: "Ngọc Trâm", ta: "Anh Thư" }
-    }
+      "Thứ 2": {
+        classes: ["2/1", "3/1", "4/1"],
+        teacher: "Hoàng Anh",
+        ta: "Minh Khải",
+      },
+      "Thứ 3": {
+        classes: ["1/2", "3/3", "2/2"],
+        teacher: "Quốc Thắng",
+        ta: "Minh Khải",
+      },
+      "Thứ 4": {
+        classes: ["4/4", "4/2", "1/3", "3/9", "4/3", "1/1", "2/9", "4/5"],
+        teacher: "Hoàng Anh",
+        ta: "Thanh Tú",
+      },
+      "Thứ 5": {
+        classes: ["4/7", "3/2", "3/8", "2/3", "2/8", "5/2", "3/6"],
+        teacher: "Phụng Nhi",
+        ta: "Anh Thư",
+      },
+      "Thứ 6": {
+        classes: ["4/11", "4/8", "3/4", "5/3", "3/10", "5/1", "4/9"],
+        teacher: "Minh Chí",
+        ta: "Thanh Tú",
+      },
+      "Thứ 7": {
+        classes: ["3/7", "4/10", "3/5", "4/6", "3/11"],
+        teacher: "Ngọc Trâm",
+        ta: "Anh Thư",
+      },
+    },
   },
   "TH Huỳnh Văn Chính": {
     morning: {
       "Thứ 2": { classes: [], teacher: "", ta: "" },
-      "Thứ 3": { classes: ["2/8", "2/9", "3/9", "3/10", "3/11", "3/12"], teacher: "Yến Ngọc", ta: "Bảo Trân" },
+      "Thứ 3": {
+        classes: ["2/8", "2/9", "3/9", "3/10", "3/11", "3/12"],
+        teacher: "Yến Ngọc",
+        ta: "Bảo Trân",
+      },
       "Thứ 4": { classes: [], teacher: "", ta: "" },
-      "Thứ 5": { classes: ["3/7", "3/8", "2/10", "2/11", "2/12"], teacher: "Yến Ngọc", ta: "-" },
-      "Thứ 6": { classes: [], teacher: "", ta: "" }
+      "Thứ 5": {
+        classes: ["3/7", "3/8", "2/10", "2/11", "2/12"],
+        teacher: "Yến Ngọc",
+        ta: "-",
+      },
+      "Thứ 6": { classes: [], teacher: "", ta: "" },
     },
     afternoon: {
-      "Thứ 2": { classes: ["1/2", "1/3", "1/3", "1/5", "1/8"], teacher: "Yến Ngọc", ta: "Thuý Bình" },
-      "Thứ 3": { classes: ["2/4", "2/4", "1/12", "1/13", "1/14", "1/4", "1/11"], teacher: "Hoàng Anh", ta: "Yến Nhi" },
-      "Thứ 4": { classes: ["2/3", "2/3", "1/6", "2/6"], teacher: "Yến Ngọc", ta: "Minh Truyền" },
-      "Thứ 5": { classes: ["3/5", "3/5", "2/2", "2/7", "2/1"], teacher: "Ngọc Nhi", ta: "Khánh Linh" },
-      "Thứ 6": { classes: ["1/1", "1/7", "3/3", "1/9", "1/10", "3/1", "2/5", "3/4", "3/2"], teacher: "Tuyết Nhung", ta: "Bảo Trân" }
-    }
-  }
+      "Thứ 2": {
+        classes: ["1/2", "1/3", "1/3", "1/5", "1/8"],
+        teacher: "Yến Ngọc",
+        ta: "Thuý Bình",
+      },
+      "Thứ 3": {
+        classes: ["2/4", "2/4", "1/12", "1/13", "1/14", "1/4", "1/11"],
+        teacher: "Hoàng Anh",
+        ta: "Yến Nhi",
+      },
+      "Thứ 4": {
+        classes: ["2/3", "2/3", "1/6", "2/6"],
+        teacher: "Yến Ngọc",
+        ta: "Minh Truyền",
+      },
+      "Thứ 5": {
+        classes: ["3/5", "3/5", "2/2", "2/7", "2/1"],
+        teacher: "Ngọc Nhi",
+        ta: "Khánh Linh",
+      },
+      "Thứ 6": {
+        classes: [
+          "1/1",
+          "1/7",
+          "3/3",
+          "1/9",
+          "1/10",
+          "3/1",
+          "2/5",
+          "3/4",
+          "3/2",
+        ],
+        teacher: "Tuyết Nhung",
+        ta: "Bảo Trân",
+      },
+    },
+  },
 };
 
 export default function BuilderPage() {
@@ -1030,26 +1115,94 @@ export default function BuilderPage() {
 
     return (
       <div style={{ padding: "20px" }}>
-        <Title level={3} style={{ textAlign: "center", marginBottom: "30px" }}>
-          📅 Thời khóa biểu - {selectedSchool}
-        </Title>
-        
+        <div style={{ 
+          textAlign: "center", 
+          marginBottom: "30px",
+          padding: "20px",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          borderRadius: "16px",
+          color: "white"
+        }}>
+          <div style={{ fontSize: "24px", fontWeight: "700", marginBottom: "8px" }}>
+            📅 Thời khóa biểu
+          </div>
+          <div style={{ fontSize: "18px", opacity: 0.9 }}>
+            {selectedSchool}
+          </div>
+        </div>
+
         <Row gutter={[16, 16]}>
           {/* Morning Session */}
           <Col xs={24} lg={12}>
-            <Card 
-              title="🌅 Buổi Sáng" 
-              style={{ height: "100%" }}
-              headStyle={{ backgroundColor: "#fff7e6", borderBottom: "2px solid #faad14" }}
+            <Card
+              title={
+                <div style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  color: "#d46b08"
+                }}>
+                  🌅 Buổi Sáng
+                </div>
+              }
+              style={{ 
+                height: "100%",
+                borderRadius: "16px",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+                border: "none"
+              }}
+              headStyle={{
+                background: "linear-gradient(135deg, #fff7e6 0%, #ffd591 100%)",
+                borderBottom: "3px solid #faad14",
+                borderRadius: "16px 16px 0 0",
+                padding: "16px 20px"
+              }}
+              bodyStyle={{
+                padding: "0",
+                borderRadius: "0 0 16px 16px"
+              }}
             >
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <thead>
                     <tr style={{ backgroundColor: "#f5f5f5" }}>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Thứ</th>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Lớp</th>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Giáo viên</th>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Trợ giảng</th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Thứ
+                      </th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Lớp
+                      </th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Giáo viên
+                      </th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Trợ giảng
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1057,16 +1210,39 @@ export default function BuilderPage() {
                       const dayData = timetable.morning[day];
                       return (
                         <tr key={day}>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9", fontWeight: "bold" }}>
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                              fontWeight: "bold",
+                            }}
+                          >
                             {day}
                           </td>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
-                            {dayData?.classes?.length > 0 ? dayData.classes.join(", ") : "-"}
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                            }}
+                          >
+                            {dayData?.classes?.length > 0
+                              ? dayData.classes.join(", ")
+                              : "-"}
                           </td>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                            }}
+                          >
                             {dayData?.teacher || "-"}
                           </td>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                            }}
+                          >
                             {dayData?.ta || "-"}
                           </td>
                         </tr>
@@ -1080,19 +1256,54 @@ export default function BuilderPage() {
 
           {/* Afternoon Session */}
           <Col xs={24} lg={12}>
-            <Card 
-              title="🌆 Buổi Chiều" 
+            <Card
+              title="🌆 Buổi Chiều"
               style={{ height: "100%" }}
-              headStyle={{ backgroundColor: "#f6ffed", borderBottom: "2px solid #52c41a" }}
+              headStyle={{
+                backgroundColor: "#f6ffed",
+                borderBottom: "2px solid #52c41a",
+              }}
             >
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <thead>
                     <tr style={{ backgroundColor: "#f5f5f5" }}>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Thứ</th>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Lớp</th>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Giáo viên</th>
-                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Trợ giảng</th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Thứ
+                      </th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Lớp
+                      </th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Giáo viên
+                      </th>
+                      <th
+                        style={{
+                          padding: "8px",
+                          border: "1px solid #d9d9d9",
+                          textAlign: "center",
+                        }}
+                      >
+                        Trợ giảng
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1100,16 +1311,39 @@ export default function BuilderPage() {
                       const dayData = timetable.afternoon[day];
                       return (
                         <tr key={day}>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9", fontWeight: "bold" }}>
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                              fontWeight: "bold",
+                            }}
+                          >
                             {day}
                           </td>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
-                            {dayData?.classes?.length > 0 ? dayData.classes.join(", ") : "-"}
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                            }}
+                          >
+                            {dayData?.classes?.length > 0
+                              ? dayData.classes.join(", ")
+                              : "-"}
                           </td>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                            }}
+                          >
                             {dayData?.teacher || "-"}
                           </td>
-                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                          <td
+                            style={{
+                              padding: "8px",
+                              border: "1px solid #d9d9d9",
+                            }}
+                          >
                             {dayData?.ta || "-"}
                           </td>
                         </tr>
@@ -1378,10 +1612,33 @@ export default function BuilderPage() {
                   <Select
                     placeholder="Chọn trường"
                     onChange={handleSchoolChange}
+                    style={{
+                      borderRadius: "12px",
+                      border: "2px solid #e8f4fd",
+                    }}
+                    dropdownStyle={{
+                      borderRadius: "12px",
+                      border: "2px solid #e8f4fd",
+                      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+                    }}
                   >
                     {SCHOOLS.map((s) => (
-                      <Select.Option key={s} value={s}>
-                        {s}
+                      <Select.Option 
+                        key={s} 
+                        value={s}
+                        style={{
+                          padding: "12px 16px",
+                          borderRadius: "8px",
+                          margin: "4px 8px",
+                        }}
+                      >
+                        <div style={{ 
+                          fontWeight: "600", 
+                          color: "#1f2937",
+                          fontSize: "14px"
+                        }}>
+                          {s}
+                        </div>
                       </Select.Option>
                     ))}
                   </Select>
@@ -2027,7 +2284,7 @@ export default function BuilderPage() {
               >
                 📅
               </span>
-              Thời khóa biểu - {selectedSchool}
+              Thời khóa biểu
             </div>
           }
           open={calendarVisible}

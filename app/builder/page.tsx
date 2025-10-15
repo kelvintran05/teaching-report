@@ -75,7 +75,14 @@ const CLASSES_BY_SCHOOL_AND_GRADE: Record<string, Record<string, string[]>> = {
 };
 
 const SESSIONS = ["Sáng", "Chiều"];
-const TAS = ["Ngọc An", "Yến Nhi", "Uyên", "Minh Truyền", "Không có trợ giảng", "Khác"];
+const TAS = [
+  "Ngọc An",
+  "Yến Nhi",
+  "Uyên",
+  "Minh Truyền",
+  "Không có trợ giảng",
+  "Khác",
+];
 const TA_COMMENT_SUGGEST =
   "Trợ giảng biết việc, bao quát lớp tuy nhiên vẫn chưa thực sự xử lí tốt các tình huống, trang phục chưa phù hợp";
 const CLASS_STATUS_SUGGEST =
@@ -98,6 +105,7 @@ export default function BuilderPage() {
   const [showCustomClass, setShowCustomClass] = useState(false);
   const [customTAValue, setCustomTAValue] = useState("");
   const [customClassValue, setCustomClassValue] = useState("");
+  const [parsedCustomClasses, setParsedCustomClasses] = useState<string[]>([]);
 
   useEffect(() => {
     setMounted(true);
@@ -112,11 +120,15 @@ export default function BuilderPage() {
 
     // Handle custom class value
     let finalClassName = values.className || [];
-    if (Array.isArray(finalClassName) && finalClassName.includes("Khác") && customClassValue.trim()) {
-      // Replace "Khác" with custom value
+    if (
+      Array.isArray(finalClassName) &&
+      finalClassName.includes("Khác") &&
+      parsedCustomClasses.length > 0
+    ) {
+      // Replace "Khác" with parsed custom classes
       finalClassName = finalClassName
         .filter((c: string) => c !== "Khác")
-        .concat(customClassValue.split(/[,;]/).map((c: string) => c.trim()).filter((c: string) => c));
+        .concat(parsedCustomClasses);
     }
 
     const newItem: Item = {
@@ -157,6 +169,7 @@ export default function BuilderPage() {
     setShowCustomClass(false);
     setCustomTAValue("");
     setCustomClassValue("");
+    setParsedCustomClasses([]);
   };
 
   const handleEdit = (item: Item) => {
@@ -176,7 +189,8 @@ export default function BuilderPage() {
 
     // Load classes cho grade
     if (gradeName) {
-      const classes = CLASSES_BY_SCHOOL_AND_GRADE[item.schoolName]?.[gradeName] || [];
+      const classes =
+        CLASSES_BY_SCHOOL_AND_GRADE[item.schoolName]?.[gradeName] || [];
       setAvailableClasses([...classes, "Khác"]);
     }
 
@@ -209,7 +223,8 @@ export default function BuilderPage() {
   const handleGradeChange = (gradeName: string) => {
     setSelectedGrade(gradeName);
     if (selectedSchool && gradeName) {
-      const classes = CLASSES_BY_SCHOOL_AND_GRADE[selectedSchool]?.[gradeName] || [];
+      const classes =
+        CLASSES_BY_SCHOOL_AND_GRADE[selectedSchool]?.[gradeName] || [];
       setAvailableClasses([...classes, "Khác"]);
     } else {
       setAvailableClasses([]);
@@ -218,6 +233,7 @@ export default function BuilderPage() {
     form.setFieldValue("className", undefined);
     setShowCustomClass(false);
     setCustomClassValue("");
+    setParsedCustomClasses([]);
   };
 
   const handleDelete = (id: string) => {
@@ -1200,6 +1216,7 @@ export default function BuilderPage() {
                       );
                       if (!values.includes("Khác")) {
                         setCustomClassValue("");
+                        setParsedCustomClasses([]);
                       }
                     }}
                   >
@@ -1211,16 +1228,38 @@ export default function BuilderPage() {
                   </Select>
                 </Form.Item>
                 {showCustomClass && (
-                  <Form.Item label="📝 Nhập tên lớp">
+                  <Form.Item 
+                    label="📝 Nhập tên lớp"
+                    help="Ví dụ: 3/7,4/1,5/3 (có thể nhập lớp từ nhiều khối khác nhau)"
+                  >
                     <Input
                       placeholder="Nhập tên lớp (có thể nhập nhiều lớp cách nhau bởi dấu phẩy)"
                       value={customClassValue}
-                      onChange={(e) => setCustomClassValue(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setCustomClassValue(value);
+                        
+                        // Parse và validate các lớp được nhập
+                        if (value.trim()) {
+                          const classes = value
+                            .split(/[,;]/)
+                            .map((c: string) => c.trim())
+                            .filter((c: string) => c && /^\d+\/\d+$/.test(c));
+                          setParsedCustomClasses(classes);
+                        } else {
+                          setParsedCustomClasses([]);
+                        }
+                      }}
                       style={{
                         borderRadius: "12px",
                         border: "2px solid #e8f4fd",
                       }}
                     />
+                    {parsedCustomClasses.length > 0 && (
+                      <div style={{ marginTop: "8px", fontSize: "12px", color: "#52c41a" }}>
+                        ✅ Đã nhận diện {parsedCustomClasses.length} lớp: {parsedCustomClasses.join(", ")}
+                      </div>
+                    )}
                   </Form.Item>
                 )}
               </Col>
@@ -1376,6 +1415,7 @@ export default function BuilderPage() {
                       setShowCustomClass(false);
                       setCustomTAValue("");
                       setCustomClassValue("");
+                      setParsedCustomClasses([]);
                     }}
                     style={{
                       borderRadius: "16px",

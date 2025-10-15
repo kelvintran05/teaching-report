@@ -55,16 +55,16 @@ const SCHOOLS = ["TH Đinh Bộ Lĩnh", "TH Huỳnh Văn Chính", "TH Đoàn Th�
 const SCHOOL_INFO: Record<string, { address: string; totalClasses: number }> = {
   "TH Đinh Bộ Lĩnh": {
     address: "91B Bờ Bao Tân Thắng, P. Sơn Kỳ, Q. Tân Phú",
-    totalClasses: 52
+    totalClasses: 52,
   },
   "TH Huỳnh Văn Chính": {
     address: "39 Huỳnh Thiện Lộc, Phú Trung, Tân Phú, TP.HCM",
-    totalClasses: 28
+    totalClasses: 28,
   },
   "TH Đoàn Thị Điểm": {
     address: "Địa chỉ TH Đoàn Thị Điểm",
-    totalClasses: 2
-  }
+    totalClasses: 2,
+  },
 };
 
 // Khối theo trường
@@ -79,14 +79,91 @@ const CLASSES_BY_SCHOOL_AND_GRADE: Record<string, Record<string, string[]>> = {
   "TH Đinh Bộ Lĩnh": {
     "Khối 1": ["1/1", "1/2", "1/3", "1/4", "1/5", "1/6", "1/7", "1/8", "1/9"],
     "Khối 2": ["2/1", "2/2", "2/3", "2/4", "2/5", "2/6", "2/7", "2/8", "2/9"],
-    "Khối 3": ["3/1", "3/2", "3/3", "3/4", "3/5", "3/6", "3/7", "3/8", "3/9", "3/10", "3/11"],
-    "Khối 4": ["4/1", "4/2", "4/3", "4/4", "4/5", "4/6", "4/7", "4/8", "4/9", "4/10", "4/11"],
-    "Khối 5": ["5/1", "5/2", "5/3", "5/4", "5/5", "5/6", "5/7", "5/8", "5/9", "5/10", "5/11", "5/12"],
+    "Khối 3": [
+      "3/1",
+      "3/2",
+      "3/3",
+      "3/4",
+      "3/5",
+      "3/6",
+      "3/7",
+      "3/8",
+      "3/9",
+      "3/10",
+      "3/11",
+    ],
+    "Khối 4": [
+      "4/1",
+      "4/2",
+      "4/3",
+      "4/4",
+      "4/5",
+      "4/6",
+      "4/7",
+      "4/8",
+      "4/9",
+      "4/10",
+      "4/11",
+    ],
+    "Khối 5": [
+      "5/1",
+      "5/2",
+      "5/3",
+      "5/4",
+      "5/5",
+      "5/6",
+      "5/7",
+      "5/8",
+      "5/9",
+      "5/10",
+      "5/11",
+      "5/12",
+    ],
   },
   "TH Huỳnh Văn Chính": {
-    "Khối 1": ["1/1", "1/2", "1/3", "1/4", "1/5", "1/6", "1/7", "1/8", "1/9", "1/10", "1/11", "1/12", "1/13", "1/14"],
-    "Khối 2": ["2/1", "2/2", "2/3", "2/4", "2/5", "2/6", "2/7", "2/8", "2/9", "2/10", "2/11", "2/12"],
-    "Khối 3": ["3/1", "3/2", "3/3", "3/4", "3/5", "3/7", "3/8", "3/9", "3/10", "3/11", "3/12"],
+    "Khối 1": [
+      "1/1",
+      "1/2",
+      "1/3",
+      "1/4",
+      "1/5",
+      "1/6",
+      "1/7",
+      "1/8",
+      "1/9",
+      "1/10",
+      "1/11",
+      "1/12",
+      "1/13",
+      "1/14",
+    ],
+    "Khối 2": [
+      "2/1",
+      "2/2",
+      "2/3",
+      "2/4",
+      "2/5",
+      "2/6",
+      "2/7",
+      "2/8",
+      "2/9",
+      "2/10",
+      "2/11",
+      "2/12",
+    ],
+    "Khối 3": [
+      "3/1",
+      "3/2",
+      "3/3",
+      "3/4",
+      "3/5",
+      "3/7",
+      "3/8",
+      "3/9",
+      "3/10",
+      "3/11",
+      "3/12",
+    ],
   },
   "TH Đoàn Thị Điểm": {
     "Khối 1": ["1/17", "1/18"],
@@ -97,7 +174,7 @@ const SESSIONS = ["Sáng", "Chiều"];
 const TAS = [
   // TH Đinh Bộ Lĩnh
   "Phúc Hảo",
-  "Thanh Hằng", 
+  "Thanh Hằng",
   "Mỹ Duyên",
   "Nhật Hào",
   "Thuý Bình",
@@ -121,6 +198,44 @@ const TA_COMMENT_SUGGEST =
 const CLASS_STATUS_SUGGEST =
   "Tình hình cơ sở vật chất: Ti vi sử dụng bình thường";
 
+// Thời khóa biểu mẫu dựa trên hình ảnh thực tế
+const TIMETABLE_DATA: Record<string, any> = {
+  "TH Đinh Bộ Lĩnh": {
+    morning: {
+      "Thứ 2": { classes: ["5/10"], teacher: "Phụng Nhi", ta: "Phúc Hảo" },
+      "Thứ 3": { classes: [], teacher: "Phụng Nhi", ta: "Thanh Hằng" },
+      "Thứ 4": { classes: ["1/7", "5/9", "1/5", "2/5"], teacher: "Phụng Nhi", ta: "Mỹ Duyên" },
+      "Thứ 5": { classes: [], teacher: "Minh Chí", ta: "Nhật Hào" },
+      "Thứ 6": { classes: ["5/5", "1/9", "2/4", "1/6", "5/6", "1/8", "1/4", "5/12", "5/8", "2/6"], teacher: "Ngọc Trâm", ta: "Mỹ Duyên" },
+      "Thứ 7": { classes: ["5/7", "5/4", "2/7"], teacher: "Phụng Nhi", ta: "Thuý Bình" }
+    },
+    afternoon: {
+      "Thứ 2": { classes: ["2/1", "3/1", "4/1"], teacher: "Hoàng Anh", ta: "Minh Khải" },
+      "Thứ 3": { classes: ["1/2", "3/3", "2/2"], teacher: "Quốc Thắng", ta: "Minh Khải" },
+      "Thứ 4": { classes: ["4/4", "4/2", "1/3", "3/9", "4/3", "1/1", "2/9", "4/5"], teacher: "Hoàng Anh", ta: "Thanh Tú" },
+      "Thứ 5": { classes: ["4/7", "3/2", "3/8", "2/3", "2/8", "5/2", "3/6"], teacher: "Phụng Nhi", ta: "Anh Thư" },
+      "Thứ 6": { classes: ["4/11", "4/8", "3/4", "5/3", "3/10", "5/1", "4/9"], teacher: "Minh Chí", ta: "Thanh Tú" },
+      "Thứ 7": { classes: ["3/7", "4/10", "3/5", "4/6", "3/11"], teacher: "Ngọc Trâm", ta: "Anh Thư" }
+    }
+  },
+  "TH Huỳnh Văn Chính": {
+    morning: {
+      "Thứ 2": { classes: [], teacher: "", ta: "" },
+      "Thứ 3": { classes: ["2/8", "2/9", "3/9", "3/10", "3/11", "3/12"], teacher: "Yến Ngọc", ta: "Bảo Trân" },
+      "Thứ 4": { classes: [], teacher: "", ta: "" },
+      "Thứ 5": { classes: ["3/7", "3/8", "2/10", "2/11", "2/12"], teacher: "Yến Ngọc", ta: "-" },
+      "Thứ 6": { classes: [], teacher: "", ta: "" }
+    },
+    afternoon: {
+      "Thứ 2": { classes: ["1/2", "1/3", "1/3", "1/5", "1/8"], teacher: "Yến Ngọc", ta: "Thuý Bình" },
+      "Thứ 3": { classes: ["2/4", "2/4", "1/12", "1/13", "1/14", "1/4", "1/11"], teacher: "Hoàng Anh", ta: "Yến Nhi" },
+      "Thứ 4": { classes: ["2/3", "2/3", "1/6", "2/6"], teacher: "Yến Ngọc", ta: "Minh Truyền" },
+      "Thứ 5": { classes: ["3/5", "3/5", "2/2", "2/7", "2/1"], teacher: "Ngọc Nhi", ta: "Khánh Linh" },
+      "Thứ 6": { classes: ["1/1", "1/7", "3/3", "1/9", "1/10", "3/1", "2/5", "3/4", "3/2"], teacher: "Tuyết Nhung", ta: "Bảo Trân" }
+    }
+  }
+};
+
 export default function BuilderPage() {
   const teacher = "Huỳnh Thị Hoàng Anh";
   const [form] = Form.useForm();
@@ -139,6 +254,7 @@ export default function BuilderPage() {
   const [customTAValue, setCustomTAValue] = useState("");
   const [customClassValue, setCustomClassValue] = useState("");
   const [parsedCustomClasses, setParsedCustomClasses] = useState<string[]>([]);
+  const [calendarVisible, setCalendarVisible] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -903,6 +1019,112 @@ export default function BuilderPage() {
     },
   ];
 
+  // Calendar component
+  const renderTimetableCalendar = () => {
+    if (!selectedSchool || !TIMETABLE_DATA[selectedSchool]) {
+      return <div>Chưa có dữ liệu thời khóa biểu cho trường này</div>;
+    }
+
+    const timetable = TIMETABLE_DATA[selectedSchool];
+    const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+
+    return (
+      <div style={{ padding: "20px" }}>
+        <Title level={3} style={{ textAlign: "center", marginBottom: "30px" }}>
+          📅 Thời khóa biểu - {selectedSchool}
+        </Title>
+        
+        <Row gutter={[16, 16]}>
+          {/* Morning Session */}
+          <Col xs={24} lg={12}>
+            <Card 
+              title="🌅 Buổi Sáng" 
+              style={{ height: "100%" }}
+              headStyle={{ backgroundColor: "#fff7e6", borderBottom: "2px solid #faad14" }}
+            >
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "#f5f5f5" }}>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Thứ</th>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Lớp</th>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Giáo viên</th>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Trợ giảng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {days.map((day) => {
+                      const dayData = timetable.morning[day];
+                      return (
+                        <tr key={day}>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9", fontWeight: "bold" }}>
+                            {day}
+                          </td>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                            {dayData?.classes?.length > 0 ? dayData.classes.join(", ") : "-"}
+                          </td>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                            {dayData?.teacher || "-"}
+                          </td>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                            {dayData?.ta || "-"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </Col>
+
+          {/* Afternoon Session */}
+          <Col xs={24} lg={12}>
+            <Card 
+              title="🌆 Buổi Chiều" 
+              style={{ height: "100%" }}
+              headStyle={{ backgroundColor: "#f6ffed", borderBottom: "2px solid #52c41a" }}
+            >
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "#f5f5f5" }}>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Thứ</th>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Lớp</th>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Giáo viên</th>
+                      <th style={{ padding: "8px", border: "1px solid #d9d9d9", textAlign: "center" }}>Trợ giảng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {days.map((day) => {
+                      const dayData = timetable.afternoon[day];
+                      return (
+                        <tr key={day}>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9", fontWeight: "bold" }}>
+                            {day}
+                          </td>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                            {dayData?.classes?.length > 0 ? dayData.classes.join(", ") : "-"}
+                          </td>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                            {dayData?.teacher || "-"}
+                          </td>
+                          <td style={{ padding: "8px", border: "1px solid #d9d9d9" }}>
+                            {dayData?.ta || "-"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    );
+  };
+
   if (!mounted) {
     return null;
   }
@@ -1159,27 +1381,33 @@ export default function BuilderPage() {
                   >
                     {SCHOOLS.map((s) => (
                       <Select.Option key={s} value={s}>
-                        <div>
-                          <div style={{ fontWeight: "bold" }}>{s}</div>
-                          <div style={{ fontSize: "12px", color: "#666" }}>
-                            {SCHOOL_INFO[s]?.totalClasses} lớp - {SCHOOL_INFO[s]?.address}
-                          </div>
-                        </div>
+                        {s}
                       </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
                 {selectedSchool && SCHOOL_INFO[selectedSchool] && (
-                  <div style={{ 
-                    marginTop: "8px", 
-                    padding: "8px 12px", 
-                    backgroundColor: "#f0f9ff", 
-                    borderRadius: "8px",
-                    fontSize: "12px",
-                    color: "#0369a1"
-                  }}>
-                    📍 <strong>{SCHOOL_INFO[selectedSchool].address}</strong><br/>
-                    📚 Tổng cộng: <strong>{SCHOOL_INFO[selectedSchool].totalClasses} lớp</strong>
+                  <div
+                    style={{
+                      marginTop: "8px",
+                      padding: "8px 12px",
+                      backgroundColor: "#f0f9ff",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      color: "#0369a1",
+                    }}
+                  >
+                    📍 <strong>{SCHOOL_INFO[selectedSchool].address}</strong>
+                    <div style={{ marginTop: "4px" }}>
+                      <Button
+                        type="link"
+                        size="small"
+                        onClick={() => setCalendarVisible(true)}
+                        style={{ padding: 0, height: "auto" }}
+                      >
+                        📅 Xem thời khóa biểu
+                      </Button>
+                    </div>
                   </div>
                 )}
               </Col>
@@ -1769,6 +1997,63 @@ export default function BuilderPage() {
               />
             </div>
           )}
+        </Modal>
+
+        {/* Calendar Modal */}
+        <Modal
+          title={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "20px",
+                fontWeight: "600",
+                color: "#7B68A6",
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "12px",
+                  padding: "8px 12px",
+                  backgroundColor: "#f0f9ff",
+                  borderRadius: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "20px",
+                  boxShadow: "0 3px 10px rgba(212, 197, 249, 0.3)",
+                }}
+              >
+                📅
+              </span>
+              Thời khóa biểu - {selectedSchool}
+            </div>
+          }
+          open={calendarVisible}
+          onCancel={() => setCalendarVisible(false)}
+          width="95%"
+          footer={[
+            <Button
+              key="close"
+              onClick={() => setCalendarVisible(false)}
+              size="large"
+              style={{
+                borderRadius: "16px",
+                height: "48px",
+                padding: "0 32px",
+                fontSize: "16px",
+                fontWeight: "600",
+              }}
+            >
+              ✨ Đóng
+            </Button>,
+          ]}
+          styles={{
+            body: { padding: "0" },
+          }}
+        >
+          {renderTimetableCalendar()}
         </Modal>
       </div>
     </div>

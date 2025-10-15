@@ -1115,20 +1115,22 @@ export default function BuilderPage() {
 
     return (
       <div style={{ padding: "20px" }}>
-        <div style={{ 
-          textAlign: "center", 
-          marginBottom: "30px",
-          padding: "20px",
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          borderRadius: "16px",
-          color: "white"
-        }}>
-          <div style={{ fontSize: "24px", fontWeight: "700", marginBottom: "8px" }}>
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: "30px",
+            padding: "20px",
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            borderRadius: "16px",
+            color: "white",
+          }}
+        >
+          <div
+            style={{ fontSize: "24px", fontWeight: "700", marginBottom: "8px" }}
+          >
             📅 Thời khóa biểu
           </div>
-          <div style={{ fontSize: "18px", opacity: 0.9 }}>
-            {selectedSchool}
-          </div>
+          <div style={{ fontSize: "18px", opacity: 0.9 }}>{selectedSchool}</div>
         </div>
 
         <Row gutter={[16, 16]}>
@@ -1136,69 +1138,94 @@ export default function BuilderPage() {
           <Col xs={24} lg={12}>
             <Card
               title={
-                <div style={{ 
-                  display: "flex", 
-                  alignItems: "center", 
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  color: "#d46b08"
-                }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    color: "#0284c7",
+                  }}
+                >
                   🌅 Buổi Sáng
                 </div>
               }
-              style={{ 
+              style={{
                 height: "100%",
-                borderRadius: "16px",
-                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-                border: "none"
+                borderRadius: "12px",
+                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+                border: "1px solid #e2e8f0",
               }}
               headStyle={{
-                background: "linear-gradient(135deg, #fff7e6 0%, #ffd591 100%)",
-                borderBottom: "3px solid #faad14",
-                borderRadius: "16px 16px 0 0",
-                padding: "16px 20px"
+                background: "linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%)",
+                borderBottom: "1px solid #0284c7",
+                borderRadius: "12px 12px 0 0",
+                padding: "12px 16px",
               }}
               bodyStyle={{
                 padding: "0",
-                borderRadius: "0 0 16px 16px"
+                borderRadius: "0 0 12px 12px",
               }}
             >
-              <div style={{ overflowX: "auto" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <div style={{ overflowX: "auto", padding: "16px" }}>
+                <table style={{ 
+                  width: "100%", 
+                  borderCollapse: "collapse",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  fontSize: "13px",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
+                }}>
                   <thead>
-                    <tr style={{ backgroundColor: "#f5f5f5" }}>
+                    <tr style={{ backgroundColor: "#f8fafc" }}>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Thứ
                       </th>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Lớp
                       </th>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Giáo viên
                       </th>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Trợ giảng
@@ -1209,41 +1236,103 @@ export default function BuilderPage() {
                     {days.map((day) => {
                       const dayData = timetable.morning[day];
                       return (
-                        <tr key={day}>
+                        <tr key={day} style={{ 
+                          backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                          transition: "all 0.2s ease"
+                        }}>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
-                              fontWeight: "bold",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontWeight: "600",
+                              fontSize: "12px",
+                              color: "#374151",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#fef3c7" : "#f3f4f6",
+                              textAlign: "center",
                             }}
                           >
                             {day}
                           </td>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontSize: "12px",
+                              color: "#1f2937",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
                             }}
                           >
-                            {dayData?.classes?.length > 0
-                              ? dayData.classes.join(", ")
-                              : "-"}
+                            {dayData?.classes?.length > 0 ? (
+                              <div style={{ 
+                                display: "flex", 
+                                flexWrap: "wrap", 
+                                gap: "3px",
+                                justifyContent: "center"
+                              }}>
+                                {dayData.classes.map((cls: string, idx: number) => (
+                                  <span
+                                    key={idx}
+                                    style={{
+                                      backgroundColor: "#dbeafe",
+                                      color: "#1e40af",
+                                      padding: "2px 6px",
+                                      borderRadius: "4px",
+                                      fontSize: "11px",
+                                      fontWeight: "500",
+                                      whiteSpace: "nowrap"
+                                    }}
+                                  >
+                                    {cls}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                            )}
                           </td>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontSize: "12px",
+                              color: "#1f2937",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              textAlign: "center",
                             }}
                           >
-                            {dayData?.teacher || "-"}
+                            {dayData?.teacher ? (
+                              <span style={{ 
+                                fontWeight: "500",
+                                color: "#059669",
+                                fontSize: "11px"
+                              }}>
+                                {dayData.teacher}
+                              </span>
+                            ) : (
+                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                            )}
                           </td>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontSize: "12px",
+                              color: "#1f2937",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              textAlign: "center",
                             }}
                           >
-                            {dayData?.ta || "-"}
+                            {dayData?.ta && dayData.ta !== "-" ? (
+                              <span style={{ 
+                                fontWeight: "500",
+                                color: "#7c3aed",
+                                fontSize: "11px"
+                              }}>
+                                {dayData.ta}
+                              </span>
+                            ) : (
+                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                            )}
                           </td>
                         </tr>
                       );
@@ -1257,49 +1346,95 @@ export default function BuilderPage() {
           {/* Afternoon Session */}
           <Col xs={24} lg={12}>
             <Card
-              title="🌆 Buổi Chiều"
-              style={{ height: "100%" }}
+              title={
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    color: "#0284c7",
+                  }}
+                >
+                  🌆 Buổi Chiều
+                </div>
+              }
+              style={{
+                height: "100%",
+                borderRadius: "12px",
+                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+                border: "1px solid #e2e8f0",
+              }}
               headStyle={{
-                backgroundColor: "#f6ffed",
-                borderBottom: "2px solid #52c41a",
+                background: "linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%)",
+                borderBottom: "1px solid #0284c7",
+                borderRadius: "12px 12px 0 0",
+                padding: "12px 16px",
+              }}
+              bodyStyle={{
+                padding: "0",
+                borderRadius: "0 0 12px 12px",
               }}
             >
-              <div style={{ overflowX: "auto" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <div style={{ overflowX: "auto", padding: "16px" }}>
+                <table style={{ 
+                  width: "100%", 
+                  borderCollapse: "collapse",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  fontSize: "13px",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
+                }}>
                   <thead>
-                    <tr style={{ backgroundColor: "#f5f5f5" }}>
+                    <tr style={{ backgroundColor: "#f8fafc" }}>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Thứ
                       </th>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Lớp
                       </th>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Giáo viên
                       </th>
                       <th
                         style={{
-                          padding: "8px",
-                          border: "1px solid #d9d9d9",
+                          padding: "12px 8px",
+                          border: "1px solid #e2e8f0",
                           textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: "12px",
+                          color: "#475569",
+                          backgroundColor: "#f8fafc",
                         }}
                       >
                         Trợ giảng
@@ -1310,41 +1445,103 @@ export default function BuilderPage() {
                     {days.map((day) => {
                       const dayData = timetable.afternoon[day];
                       return (
-                        <tr key={day}>
+                        <tr key={day} style={{ 
+                          backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                          transition: "all 0.2s ease"
+                        }}>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
-                              fontWeight: "bold",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontWeight: "600",
+                              fontSize: "12px",
+                              color: "#374151",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#fef3c7" : "#f3f4f6",
+                              textAlign: "center",
                             }}
                           >
                             {day}
                           </td>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontSize: "12px",
+                              color: "#1f2937",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
                             }}
                           >
-                            {dayData?.classes?.length > 0
-                              ? dayData.classes.join(", ")
-                              : "-"}
+                            {dayData?.classes?.length > 0 ? (
+                              <div style={{ 
+                                display: "flex", 
+                                flexWrap: "wrap", 
+                                gap: "3px",
+                                justifyContent: "center"
+                              }}>
+                                {dayData.classes.map((cls: string, idx: number) => (
+                                  <span
+                                    key={idx}
+                                    style={{
+                                      backgroundColor: "#dbeafe",
+                                      color: "#1e40af",
+                                      padding: "2px 6px",
+                                      borderRadius: "4px",
+                                      fontSize: "11px",
+                                      fontWeight: "500",
+                                      whiteSpace: "nowrap"
+                                    }}
+                                  >
+                                    {cls}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                            )}
                           </td>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontSize: "12px",
+                              color: "#1f2937",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              textAlign: "center",
                             }}
                           >
-                            {dayData?.teacher || "-"}
+                            {dayData?.teacher ? (
+                              <span style={{ 
+                                fontWeight: "500",
+                                color: "#059669",
+                                fontSize: "11px"
+                              }}>
+                                {dayData.teacher}
+                              </span>
+                            ) : (
+                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                            )}
                           </td>
                           <td
                             style={{
-                              padding: "8px",
-                              border: "1px solid #d9d9d9",
+                              padding: "12px 8px",
+                              border: "1px solid #e2e8f0",
+                              fontSize: "12px",
+                              color: "#1f2937",
+                              backgroundColor: dayData?.classes?.length > 0 ? "#ffffff" : "#fafbfc",
+                              textAlign: "center",
                             }}
                           >
-                            {dayData?.ta || "-"}
+                            {dayData?.ta && dayData.ta !== "-" ? (
+                              <span style={{ 
+                                fontWeight: "500",
+                                color: "#7c3aed",
+                                fontSize: "11px"
+                              }}>
+                                {dayData.ta}
+                              </span>
+                            ) : (
+                              <span style={{ color: "#9ca3af", fontStyle: "italic", fontSize: "11px" }}>-</span>
+                            )}
                           </td>
                         </tr>
                       );
@@ -1623,8 +1820,8 @@ export default function BuilderPage() {
                     }}
                   >
                     {SCHOOLS.map((s) => (
-                      <Select.Option 
-                        key={s} 
+                      <Select.Option
+                        key={s}
                         value={s}
                         style={{
                           padding: "12px 16px",
@@ -1632,11 +1829,13 @@ export default function BuilderPage() {
                           margin: "4px 8px",
                         }}
                       >
-                        <div style={{ 
-                          fontWeight: "600", 
-                          color: "#1f2937",
-                          fontSize: "14px"
-                        }}>
+                        <div
+                          style={{
+                            fontWeight: "600",
+                            color: "#1f2937",
+                            fontSize: "14px",
+                          }}
+                        >
                           {s}
                         </div>
                       </Select.Option>

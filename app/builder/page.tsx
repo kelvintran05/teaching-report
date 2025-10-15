@@ -51,23 +51,42 @@ type Item = {
 
 const SCHOOLS = ["TH Đinh Bộ Lĩnh", "TH Huỳnh Văn Chính", "TH Đoàn Thị Điểm"];
 
+// Thông tin chi tiết về các trường
+const SCHOOL_INFO: Record<string, { address: string; totalClasses: number }> = {
+  "TH Đinh Bộ Lĩnh": {
+    address: "91B Bờ Bao Tân Thắng, P. Sơn Kỳ, Q. Tân Phú",
+    totalClasses: 52
+  },
+  "TH Huỳnh Văn Chính": {
+    address: "39 Huỳnh Thiện Lộc, Phú Trung, Tân Phú, TP.HCM",
+    totalClasses: 28
+  },
+  "TH Đoàn Thị Điểm": {
+    address: "Địa chỉ TH Đoàn Thị Điểm",
+    totalClasses: 2
+  }
+};
+
 // Khối theo trường
 const GRADES_BY_SCHOOL: Record<string, string[]> = {
-  "TH Đinh Bộ Lĩnh": ["Khối 2", "Khối 3", "Khối 4"],
-  "TH Huỳnh Văn Chính": ["Khối 1", "Khối 2"],
+  "TH Đinh Bộ Lĩnh": ["Khối 1", "Khối 2", "Khối 3", "Khối 4", "Khối 5"],
+  "TH Huỳnh Văn Chính": ["Khối 1", "Khối 2", "Khối 3"],
   "TH Đoàn Thị Điểm": ["Khối 1"],
 };
 
-// Lớp theo trường và khối
+// Lớp theo trường và khối (dựa trên thời khóa biểu thực tế)
 const CLASSES_BY_SCHOOL_AND_GRADE: Record<string, Record<string, string[]>> = {
   "TH Đinh Bộ Lĩnh": {
-    "Khối 2": ["2/1", "2/2"],
-    "Khối 3": ["3/1", "3/9"],
-    "Khối 4": ["4/2"],
+    "Khối 1": ["1/1", "1/2", "1/3", "1/4", "1/5", "1/6", "1/7", "1/8", "1/9"],
+    "Khối 2": ["2/1", "2/2", "2/3", "2/4", "2/5", "2/6", "2/7", "2/8", "2/9"],
+    "Khối 3": ["3/1", "3/2", "3/3", "3/4", "3/5", "3/6", "3/7", "3/8", "3/9", "3/10", "3/11"],
+    "Khối 4": ["4/1", "4/2", "4/3", "4/4", "4/5", "4/6", "4/7", "4/8", "4/9", "4/10", "4/11"],
+    "Khối 5": ["5/1", "5/2", "5/3", "5/4", "5/5", "5/6", "5/7", "5/8", "5/9", "5/10", "5/11", "5/12"],
   },
   "TH Huỳnh Văn Chính": {
-    "Khối 1": ["1/11", "1/12", "1/13", "1/14"],
-    "Khối 2": ["2/4", "2/7"],
+    "Khối 1": ["1/1", "1/2", "1/3", "1/4", "1/5", "1/6", "1/7", "1/8", "1/9", "1/10", "1/11", "1/12", "1/13", "1/14"],
+    "Khối 2": ["2/1", "2/2", "2/3", "2/4", "2/5", "2/6", "2/7", "2/8", "2/9", "2/10", "2/11", "2/12"],
+    "Khối 3": ["3/1", "3/2", "3/3", "3/4", "3/5", "3/7", "3/8", "3/9", "3/10", "3/11", "3/12"],
   },
   "TH Đoàn Thị Điểm": {
     "Khối 1": ["1/17", "1/18"],
@@ -76,10 +95,24 @@ const CLASSES_BY_SCHOOL_AND_GRADE: Record<string, Record<string, string[]>> = {
 
 const SESSIONS = ["Sáng", "Chiều"];
 const TAS = [
+  // TH Đinh Bộ Lĩnh
+  "Phúc Hảo",
+  "Thanh Hằng", 
+  "Mỹ Duyên",
+  "Nhật Hào",
+  "Thuý Bình",
+  "Minh Khải",
+  "Thanh Tú",
+  "Anh Thư",
+  "Khánh Linh",
+  "Bảo Trân",
+  "Trần Thắng",
+  // TH Huỳnh Văn Chính
   "Ngọc An",
   "Yến Nhi",
   "Uyên",
   "Minh Truyền",
+  "Thuý Bình",
   "Không có trợ giảng",
   "Khác",
 ];
@@ -1126,11 +1159,29 @@ export default function BuilderPage() {
                   >
                     {SCHOOLS.map((s) => (
                       <Select.Option key={s} value={s}>
-                        {s}
+                        <div>
+                          <div style={{ fontWeight: "bold" }}>{s}</div>
+                          <div style={{ fontSize: "12px", color: "#666" }}>
+                            {SCHOOL_INFO[s]?.totalClasses} lớp - {SCHOOL_INFO[s]?.address}
+                          </div>
+                        </div>
                       </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
+                {selectedSchool && SCHOOL_INFO[selectedSchool] && (
+                  <div style={{ 
+                    marginTop: "8px", 
+                    padding: "8px 12px", 
+                    backgroundColor: "#f0f9ff", 
+                    borderRadius: "8px",
+                    fontSize: "12px",
+                    color: "#0369a1"
+                  }}>
+                    📍 <strong>{SCHOOL_INFO[selectedSchool].address}</strong><br/>
+                    📚 Tổng cộng: <strong>{SCHOOL_INFO[selectedSchool].totalClasses} lớp</strong>
+                  </div>
+                )}
               </Col>
 
               <Col xs={24} sm={12} md={8}>
@@ -1228,7 +1279,7 @@ export default function BuilderPage() {
                   </Select>
                 </Form.Item>
                 {showCustomClass && (
-                  <Form.Item 
+                  <Form.Item
                     label="📝 Nhập tên lớp"
                     help="Ví dụ: 3/7,4/1,5/3 (có thể nhập lớp từ nhiều khối khác nhau)"
                   >
@@ -1238,7 +1289,7 @@ export default function BuilderPage() {
                       onChange={(e) => {
                         const value = e.target.value;
                         setCustomClassValue(value);
-                        
+
                         // Parse và validate các lớp được nhập
                         if (value.trim()) {
                           const classes = value
@@ -1256,8 +1307,15 @@ export default function BuilderPage() {
                       }}
                     />
                     {parsedCustomClasses.length > 0 && (
-                      <div style={{ marginTop: "8px", fontSize: "12px", color: "#52c41a" }}>
-                        ✅ Đã nhận diện {parsedCustomClasses.length} lớp: {parsedCustomClasses.join(", ")}
+                      <div
+                        style={{
+                          marginTop: "8px",
+                          fontSize: "12px",
+                          color: "#52c41a",
+                        }}
+                      >
+                        ✅ Đã nhận diện {parsedCustomClasses.length} lớp:{" "}
+                        {parsedCustomClasses.join(", ")}
                       </div>
                     )}
                   </Form.Item>

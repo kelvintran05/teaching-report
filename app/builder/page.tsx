@@ -18,7 +18,6 @@ import {
   Tooltip,
 } from "antd";
 import {
-  PlusOutlined,
   DeleteOutlined,
   EditOutlined,
   FileExcelOutlined,
